@@ -22,5 +22,29 @@ namespace CheckShow.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("127.0.0.1")]
+        public string Container_Ip {
+            get {
+                return ((string)(this["Container_Ip"]));
+            }
+            set {
+                this["Container_Ip"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("12011")]
+        public int Container_Port {
+            get {
+                return ((int)(this["Container_Port"]));
+            }
+            set {
+                this["Container_Port"] = value;
+            }
+        }
     }
 }

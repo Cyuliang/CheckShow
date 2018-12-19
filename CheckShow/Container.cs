@@ -1,31 +1,29 @@
 ﻿using AxVeconclientProj;
 using System;
-//using ZBYGate_Data_Collection.Log;
 
-namespace CheckShow.Container
+namespace CheckShow
 {
     class Container: IDisposable
     {
-        //private CLog _Log = new CLog();
-        private AxVECONclient _AxVECONclient;
-        private System.Threading.Timer _TimerConnect2Server;        
+        private System.Threading.Timer _TimerConnect2Server=null;
         private bool _AutoLink = true;
+        private AxVECONclient _AxVECONclient;
 
-        public Action<string> SetMessage;
-        public Action<IVECONclientEvents_OnNewLPNEventEvent> NewLPNEvent;
-        public Action<IVECONclientEvents_OnUpdateLPNEventEvent> UpdateLPNEvent;
-        public Action<IVECONclientEvents_OnCombinedRecognitionResultISOEvent> CombinResult;
-        //public Action<IVECONclientEvents_OnIntermediateRecognitionResultISOEvent> Intermediate;
+        public Action<string> SetMessage = null;
+        public Action<bool> GetStatusAction = null;
+        public Action<DateTime, string> LpnResult = null;//车牌结果触发插入数据库
+        public Action<IVECONclientEvents_OnNewLPNEventEvent> NewLPNEvent=null;
+        public Action<IVECONclientEvents_OnUpdateLPNEventEvent> UpdateLPNEvent=null;
+        public Action<IVECONclientEvents_OnCombinedRecognitionResultISOEvent> CombinResult=null;
 
-        public Action<bool> GetStatusAction;
 
         public Container()
         {
             #region //箱号初始化
             _AxVECONclient = new AxVECONclient();
             _AxVECONclient.CreateControl();
-            //_AxVECONclient.ServerIPAddr = Properties.Settings.Default.Container_Ip;
-            //_AxVECONclient.ServerPort = Properties.Settings.Default.Container_Port;   
+            _AxVECONclient.ServerIPAddr = Properties.Settings.Default.Container_Ip;
+            _AxVECONclient.ServerPort = Properties.Settings.Default.Container_Port;
             _AxVECONclient.OnServerConnected += _AxVECONclient_OnServerConnected;
             _AxVECONclient.OnServerDisconnected += _AxVECONclient_OnServerDisconnected;
             _AxVECONclient.OnServerError += _AxVECONclient_OnServerError;
@@ -35,9 +33,9 @@ namespace CheckShow.Container
             _AxVECONclient.OnCombinedRecognitionResultISO += _AxVECONclient_OnCombinedRecognitionResultISO;
             #endregion
 
-            #region//对象初始化
+            #region//断开定时器
             _TimerConnect2Server = new System.Threading.Timer(LinkCallBack, null, TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(0));
-            #endregion
+            #endregion   
         }
 
         /// <summary>
@@ -46,7 +44,7 @@ namespace CheckShow.Container
         /// <param name="o"></param>
         private void LinkCallBack(object o)
         {
-            //_Log.logInfo.Info("Link Container Init Start");
+            Lognet.Log.Info("开始链接箱号识别系统");
             SetMessage?.Invoke("Link Container Init Start");
             _AxVECONclient.Connect2Server();
         }
@@ -56,7 +54,7 @@ namespace CheckShow.Container
         /// </summary>
         public void LinkC(int i)
         {
-            //_Log.logInfo.Info("Link Container Start");
+            Lognet.Log.Info("箱号识别系统链接成功");
             SetMessage?.Invoke("Link Container Start");
             _AxVECONclient.Connect2Server();
             _AutoLink = true;
@@ -67,7 +65,7 @@ namespace CheckShow.Container
         /// </summary>
         public void CloseC(int i)
         {
-            //_Log.logWarn.Warn("Container Close");
+            Lognet.Log.Info("关闭链接箱号识别系统");
             SetMessage?.Invoke("Container Close");
             _AxVECONclient.Disconnect();
             _TimerConnect2Server.Change(-1,-1);
@@ -91,7 +89,7 @@ namespace CheckShow.Container
         /// <param name="e"></param>
         private void _AxVECONclient_OnServerError(object sender, System.EventArgs e)
         {
-            //_Log.logWarn.Warn("Link Container Error");
+            Lognet.Log.Info("箱号识别系统链接错误");
             SetMessage?.Invoke("Link Container Error");
             //_TimerConnect2Server.Change(TimeSpan.FromSeconds(5),TimeSpan.FromSeconds(0));
         }
@@ -103,7 +101,7 @@ namespace CheckShow.Container
         /// <param name="e"></param>
         private void _AxVECONclient_OnServerDisconnected(object sender, System.EventArgs e)
         {
-            //_Log.logWarn.Warn("Link Container Disconnect");
+            Lognet.Log.Info("箱号识别系统链接失败");
             SetMessage?.Invoke("Link Container Disconnect");
             GetStatusAction?.Invoke(false);
             if(_AutoLink)
@@ -119,7 +117,7 @@ namespace CheckShow.Container
         /// <param name="e"></param>
         private void _AxVECONclient_OnServerConnected(object sender, System.EventArgs e)
         {
-            //_Log.logInfo.Info("Link Container Connected");
+            Lognet.Log.Info("箱号识别系统链接成功");
             SetMessage?.Invoke("Link Container Connected");
             GetStatusAction?.Invoke(true);
             _TimerConnect2Server.Change(-1,-1);
@@ -145,7 +143,7 @@ namespace CheckShow.Container
         {
             CombinResult?.Invoke(e);
             SetMessage?.Invoke(string.Format("CombinResult1：{0} CombinResult2：{1}", e.containerNum1,e.containerNum2));
-            //_Log.logInfo.Info(string.Format("DateTimt：{0} CombinResult1：{1} CombinResult2：{2}",e.triggerTime.ToString("yyyy-MM-dd HH:mm:ss"), e.containerNum1,e.containerNum2));
+            Lognet.Log.Info(string.Format("DateTimt：{0} CombinResult1：{1} CombinResult2：{2}",e.triggerTime.ToString("yyyy-MM-dd HH:mm:ss"), e.containerNum1,e.containerNum2));
         }
 
         /// <summary>
@@ -157,7 +155,8 @@ namespace CheckShow.Container
         {
             UpdateLPNEvent?.Invoke(e);
             SetMessage?.Invoke(string.Format("UpdateLPN：{0}", e.lPN));
-            //_Log.logInfo.Info(string.Format("DateTime：{0} UpdateLPN：{1}", e.triggerTime.ToString("yyyy-MM-dd HH:mm:ss"), e.lPN));
+            Lognet.Log.Info(string.Format("DateTime：{0} UpdateLPN：{1}", e.triggerTime.ToString("yyyy-MM-dd HH:mm:ss"), e.lPN));
+            LpnResult(e.triggerTime,e.lPN);
         }
 
         /// <summary>
@@ -169,7 +168,8 @@ namespace CheckShow.Container
         {
             NewLPNEvent?.Invoke(e);
             SetMessage?.Invoke(string.Format("NewLPN：{0}", e.lPN));
-            //_Log.logInfo.Info(string.Format("DateTime：{0} NewLPN：{1}", e.triggerTime.ToString("yyyy-MM-dd HH:mm:ss"), e.lPN));
+            Lognet.Log.Info(string.Format("DateTime：{0} NewLPN：{1}", e.triggerTime.ToString("yyyy-MM-dd HH:mm:ss"), e.lPN));
+            LpnResult(e.triggerTime, e.lPN);
         }
 
         #region IDisposable Support
