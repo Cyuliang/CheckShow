@@ -12,7 +12,8 @@ namespace CheckShow
     {
 
         private DataBase _DataBase = new DataBase();
-        private Container _Container = new Container();        
+        private Container _Container = new Container();
+        private string ImagePath = Properties.Settings.Default.ImagePath;
         public Form1()
         {
             InitializeComponent();
@@ -53,19 +54,26 @@ namespace CheckShow
         /// <param name="e"></param>
         private void FindButton_Click(object sender, EventArgs e)
         {
-            string cmdText = string.Empty;
-            if(radioTimeButton.Checked)
-            {
-                cmdText = string.Format("SELECT * FROM Picture WHERE Date BETWEEN '{0}' AND '{1}'", dateTimePicker1.Value.ToString("yyyy-MM-dd HH:mm:ss"), dateTimePicker2.Value.ToString("yyyy-MM-dd HH:mm:ss"));
-            }
+            string Plate = string.Empty;
             if(radioPlateButton.Checked)
             {
-                cmdText = string.Format("SELECT * FROM Picture WHERE  Plate='{0}'",textBox1.Text);
+                Plate = textBox1.Text;
             }
-            bindingSource1.DataSource = _DataBase.Select(cmdText).Tables["Picture"];
+            bindingSource1.DataSource = _DataBase.Select(dateTimePicker1.Value,dateTimePicker2.Value, Plate).Tables["Picture"];
             bindingNavigator1.BindingSource = bindingSource1;
             dataGridView1.DataSource = bindingSource1;
             dataGridView1.Columns[1].DefaultCellStyle.Format = "yyyy-MM-dd HH:mm:ss";
+        }
+
+        /// <summary>
+        /// 双击单元格显示图片窗口
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            Picture _Picture = new Picture();
+            _Picture.Show();
         }
     }
 }

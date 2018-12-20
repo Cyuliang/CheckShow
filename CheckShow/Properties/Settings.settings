@@ -8,5 +8,8 @@
     <Setting Name="Container_Port" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">12011</Value>
     </Setting>
+    <Setting Name="ImagePath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Image\</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
