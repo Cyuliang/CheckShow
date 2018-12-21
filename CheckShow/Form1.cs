@@ -10,10 +10,14 @@ namespace CheckShow
 {
     public partial class Form1 : Form
     {
-
         private DataBase _DataBase = new DataBase();
         private Container _Container = new Container();
+
+        private Action<string[]> ShowPicture;
         private string ImagePath = Properties.Settings.Default.ImagePath;
+        private string Container_Lane = Properties.Settings.Default.Container_Lane;
+        private string Container_Plate_Name = Properties.Settings.Default.Container_Plate_Name;
+
         public Form1()
         {
             InitializeComponent();
@@ -31,10 +35,6 @@ namespace CheckShow
             dateTimePicker2.Value = DateTime.Now.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
 
             radioTimeButton.Checked = true;
-
-
-            //var mes = _DataBase.InsertData(DateTime.Parse("2018-12-19 13:12:22"), new string[] {  "2", "3", "4", "5", "6", "7", "8" ,"9"});
-            //toolStripStatusLabel2.Text = string.Format("插入 [{0:d}] 条数据成功!", mes);
         }
 
         /// <summary>
@@ -44,7 +44,7 @@ namespace CheckShow
         /// <param name="arg2"></param>
         private void InsertLpn(DateTime arg1, string arg2)
         {
-            var mes = _DataBase.InsertData(arg1.ToUniversalTime().AddHours(8), new string[] {  arg2, "3", "4", "5", "6", "7", "8" ,"9"});
+            var mes = _DataBase.InsertData(arg1.ToUniversalTime().AddHours(8), ReturnImagePath(arg1.ToUniversalTime().AddHours(8), arg2));
         }
 
         /// <summary>
@@ -72,8 +72,38 @@ namespace CheckShow
         /// <param name="e"></param>
         private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
+            string[] str = new string[dataGridView1.Columns.Count];
+            int row = dataGridView1.CurrentRow.Index;
+            for(int i=0;i<dataGridView1.Columns.Count;i++)
+            {
+                str[i] = dataGridView1.Rows[row].Cells[i].Value.ToString();
+            }
             Picture _Picture = new Picture();
+            ShowPicture += _Picture.ShowPicture;
+            ShowPicture?.Invoke(str);
             _Picture.Show();
+        }
+
+        /// <summary>
+        /// 返回图片路径
+        /// </summary>
+        /// <param name="dt"></param>
+        /// <param name="Plate"></param>
+        /// <returns></returns>
+        private string[] ReturnImagePath(DateTime dt,string Plate)
+        {
+            string[] Message = new string[9] {Plate,null,null,null,null,null,null,null,null};
+            string Path = string.Format(@"{0}\{1}\0{2}\0{3}\",ImagePath,dt.Year.ToString(),dt.Month.ToString(),dt.Day.ToString());
+            for(int i=1;i<7;i++)
+            {                
+                Message[i] = string.Format(@"{0}{1}{2}{3}.jpg", Path, dt.ToString("yyyyMMddHHmmss"), Container_Lane, i);
+                if (!System.IO.File.Exists(Message[i]))
+                {
+                    Message[i] = null;
+                }
+            }
+            Message[8]= string.Format(@"{0}{1}{2}{3}.jpg", Path, dt.ToString("yyyyMMddHHmmss"), Container_Lane, Container_Plate_Name);
+            return Message;
         }
     }
 }

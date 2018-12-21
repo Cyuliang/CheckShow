@@ -49,13 +49,37 @@ namespace CheckShow.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Image\\")]
+        [global::System.Configuration.DefaultSettingValueAttribute("D:\\移动硬盘文件\\码头图片\\箱号图片\\cic-10")]
         public string ImagePath {
             get {
                 return ((string)(this["ImagePath"]));
             }
             set {
                 this["ImagePath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        public string Container_Lane {
+            get {
+                return ((string)(this["Container_Lane"]));
+            }
+            set {
+                this["Container_Lane"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("99")]
+        public string Container_Plate_Name {
+            get {
+                return ((string)(this["Container_Plate_Name"]));
+            }
+            set {
+                this["Container_Plate_Name"] = value;
             }
         }
     }

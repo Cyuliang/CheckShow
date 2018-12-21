@@ -122,7 +122,7 @@ namespace CheckShow
                 connection.Close();
             }
             return ds;
-        }
+        }        
 
         #region IDisposable Support
         private bool disposedValue = false; // 要检测冗余调用

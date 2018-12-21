@@ -9,7 +9,13 @@
       <Value Profile="(Default)">12011</Value>
     </Setting>
     <Setting Name="ImagePath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">C:\Image\</Value>
+      <Value Profile="(Default)">D:\移动硬盘文件\码头图片\箱号图片\cic-10</Value>
+    </Setting>
+    <Setting Name="Container_Lane" Type="System.String" Scope="User">
+      <Value Profile="(Default)">10</Value>
+    </Setting>
+    <Setting Name="Container_Plate_Name" Type="System.String" Scope="User">
+      <Value Profile="(Default)">99</Value>
     </Setting>
   </Settings>
 </SettingsFile>

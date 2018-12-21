@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CheckShow
@@ -71,24 +65,50 @@ namespace CheckShow
             pictureBox6.Tag = 6;
             pictureBox7.Tag = 7;
             pictureBox8.Tag = 8;
-            pictureBox9.Tag = 9;
+            pictureBox9.Tag = 9;          
+        }
 
+        public void ShowPicture(string[] str)
+        {
             try
             {
-                pictureBox1.Image = Image.FromFile(@"c:\移动硬盘文件\箱号图片\新疆箱号图片\20171219\01_20171219000221_1.jpg");
-                pictureBox2.Image = Image.FromFile(@"c:\移动硬盘文件\箱号图片\新疆箱号图片\20171219\01_20171219000221_2.jpg");
-                pictureBox3.Image = Image.FromFile(@"c:\移动硬盘文件\箱号图片\新疆箱号图片\20171219\01_20171219000221_3.jpg");
-                pictureBox4.Image = Image.FromFile(@"c:\移动硬盘文件\箱号图片\新疆箱号图片\20171219\01_20171219000221_4.jpg");
-                pictureBox5.Image = Image.FromFile(@"c:\移动硬盘文件\箱号图片\新疆箱号图片\20171219\01_20171219000221_5.jpg");
-                pictureBox6.Image = Image.FromFile(@"c:\移动硬盘文件\箱号图片\新疆箱号图片\20171219\01_20171219000221_6.jpg");
-                pictureBox7.Image = Image.FromFile(@"c:\移动硬盘文件\箱号图片\新疆箱号图片\20171219\01_20171219000221_7.jpg");
-                pictureBox8.Image = Image.FromFile(@"c:\移动硬盘文件\箱号图片\新疆箱号图片\20171219\01_20171219000723_1.jpg");
-
+                if(str[3]!=null&& System.IO.File.Exists(str[3]))
+                {
+                    pictureBox1.Image = Image.FromFile(str[3]);
+                }
+                if(str[4]!=null && System.IO.File.Exists(str[4]))
+                {
+                    pictureBox2.Image = Image.FromFile(str[4]);
+                }
+                if(str[5]!=null && System.IO.File.Exists(str[5]))
+                {
+                    pictureBox3.Image = Image.FromFile(str[5]);
+                }
+                if(str[6]!=null && System.IO.File.Exists(str[6]))
+                {
+                    pictureBox4.Image = Image.FromFile(str[6]);
+                }
+                if(str[7]!=null && System.IO.File.Exists(str[7]))
+                {
+                    pictureBox5.Image = Image.FromFile(str[7]);
+                }
+                if(str[8]!=null && System.IO.File.Exists(str[8]))
+                {
+                    pictureBox6.Image = Image.FromFile(str[8]);
+                }
+                if(str[9]!=null && System.IO.File.Exists(str[9]))
+                {
+                    pictureBox7.Image = Image.FromFile(str[9]);
+                }
+                if(str[10]!=null && System.IO.File.Exists(str[10]))
+                {
+                    pictureBox8.Image = Image.FromFile(str[10]);
+                }
             }
             catch (Exception)
             {
-                MessageBox.Show("error");
-            }            
+                //MessageBox.Show("error");
+            }
         }
 
         /// <summary>
@@ -102,9 +122,11 @@ namespace CheckShow
             PictureBox picture = (PictureBox)sender;
             switch(picture.Tag)
             {
-                case 1:image = pictureBox1.Image;
+                case 1:
+                    image = pictureBox1.Image;
                     break;
-                case 2:image = pictureBox2.Image;
+                case 2:
+                    image = pictureBox2.Image;
                     break;
                 case 3:
                     image = pictureBox3.Image;
