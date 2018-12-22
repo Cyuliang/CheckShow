@@ -63,6 +63,16 @@ namespace CheckShow {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
+        internal static System.Drawing.Bitmap baocun {
+            get {
+                object obj = ResourceManager.GetObject("baocun", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查找 System.Drawing.Bitmap 类型的本地化资源。
+        /// </summary>
         internal static System.Drawing.Bitmap shangyiyeqianyiye {
             get {
                 object obj = ResourceManager.GetObject("shangyiyeqianyiye", resourceCulture);

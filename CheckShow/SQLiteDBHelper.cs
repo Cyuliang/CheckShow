@@ -13,7 +13,7 @@ namespace CheckShow
     /// </summary> 
     public abstract class SQLiteDBHelper
     {
-        private string connectionString = string.Empty;
+        private readonly string connectionString = string.Empty;
         /// <summary> 
         /// 构造函数 
         /// </summary> 

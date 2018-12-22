@@ -50,12 +50,12 @@ namespace CheckShow.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("D:\\移动硬盘文件\\码头图片\\箱号图片\\cic-10")]
-        public string ImagePath {
+        public string Container_ImagePath {
             get {
-                return ((string)(this["ImagePath"]));
+                return ((string)(this["Container_ImagePath"]));
             }
             set {
-                this["ImagePath"] = value;
+                this["Container_ImagePath"] = value;
             }
         }
         
@@ -80,6 +80,18 @@ namespace CheckShow.Properties {
             }
             set {
                 this["Container_Plate_Name"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("D:\\移动硬盘文件\\码头图片\\箱号图片\\cic-10")]
+        public string Container_ChediPath {
+            get {
+                return ((string)(this["Container_ChediPath"]));
+            }
+            set {
+                this["Container_ChediPath"] = value;
             }
         }
     }

@@ -7,7 +7,7 @@ namespace CheckShow
     public partial class Picture : Form
     {
 
-        private Action<Image> BigShowPictureFunc=null;
+        private Action<Image ,string> BigShowPictureFunc=null;
         public Picture()
         {
             InitializeComponent();
@@ -72,9 +72,10 @@ namespace CheckShow
         {
             try
             {
-                if(str[3]!=null&& System.IO.File.Exists(str[3]))
+                this.Text = str[2]+"-（单击放大图片）";
+                if (str[3]!=null&& System.IO.File.Exists(str[3]))
                 {
-                    pictureBox1.Image = Image.FromFile(str[3]);
+                    pictureBox6.Image = Image.FromFile(str[3]);
                 }
                 if(str[4]!=null && System.IO.File.Exists(str[4]))
                 {
@@ -94,15 +95,15 @@ namespace CheckShow
                 }
                 if(str[8]!=null && System.IO.File.Exists(str[8]))
                 {
-                    pictureBox6.Image = Image.FromFile(str[8]);
+                    pictureBox7.Image = Image.FromFile(str[8]);
                 }
                 if(str[9]!=null && System.IO.File.Exists(str[9]))
                 {
-                    pictureBox7.Image = Image.FromFile(str[9]);
+                    pictureBox8.Image = Image.FromFile(str[9]);
                 }
                 if(str[10]!=null && System.IO.File.Exists(str[10]))
                 {
-                    pictureBox8.Image = Image.FromFile(str[10]);
+                    pictureBox1.Image = Image.FromFile(str[10]);
                 }
             }
             catch (Exception)
@@ -112,47 +113,58 @@ namespace CheckShow
         }
 
         /// <summary>
-        /// 双击放大图片
+        /// 单击放大图片
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void PictureBox_DoubleClick(object sender, EventArgs e)
+        private void PictureBox_Click(object sender, EventArgs e)
         {
             Image image = null;
+            string lable = string.Empty;
             PictureBox picture = (PictureBox)sender;
             switch(picture.Tag)
             {
                 case 1:
                     image = pictureBox1.Image;
+                    lable = label1.Text;
                     break;
                 case 2:
                     image = pictureBox2.Image;
+                    lable = label2.Text;
                     break;
                 case 3:
                     image = pictureBox3.Image;
+                    lable = label3.Text;
                     break;
                 case 4:
                     image = pictureBox4.Image;
+                    lable = label4.Text;
                     break;
                 case 5:
                     image = pictureBox5.Image;
+                    lable = label5.Text;
                     break;
                 case 6:
                     image = pictureBox6.Image;
+                    lable = label6.Text;
                     break;
                 case 7:
                     image = pictureBox7.Image;
+                    lable = label7.Text;
                     break;
                 case 8:
                     image = pictureBox8.Image;
+                    lable = label8.Text;
                     break;
                 case 9:
                     image = pictureBox9.Image;
+                    lable = label9.Text;
                     break;
             }
             BigShow _BigShow = new BigShow();
             BigShowPictureFunc += _BigShow.ShowPicture;
-            BigShowPictureFunc?.Invoke(image);
+            BigShowPictureFunc?.Invoke(image,lable);
+            _BigShow.WindowState = FormWindowState.Maximized;
             _BigShow.ShowDialog(); 
         }
     }

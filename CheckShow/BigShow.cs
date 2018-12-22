@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CheckShow
@@ -14,22 +8,62 @@ namespace CheckShow
     {
         public BigShow()
         {
-            InitializeComponent();            
+            InitializeComponent();
         }
 
-        public void ShowPicture(Image image)
+        /// <summary>
+        /// 显示图片
+        /// </summary>
+        /// <param name="image"></param>
+        public void ShowPicture(Image image,string lable)
         {
+            this.Text = lable + "-（双击关闭窗口）";
             pictureBox1.Image = image;
         }
 
-        private void pictureBox1_DoubleClick(object sender, EventArgs e)
+        /// <summary>
+        /// 关闭窗口
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void PictureBox1_DoubleClick(object sender, EventArgs e)
         {
             this.Close();
         }
 
-        private void pictureBox1_Click(object sender, EventArgs e)
+        /// <summary>
+        /// 放大图片
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void PictureBox1_Click(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Maximized;
+        }
+
+        /// <summary>
+        /// 保存图片
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ToolStripButton1_Click(object sender, EventArgs e)
+        {
+            if(pictureBox1.Image==null)
+            {
+                return;
+            }
+            SaveFileDialog saveDlg = new SaveFileDialog
+            {
+                Title = "保存",
+                OverwritePrompt = true,
+                Filter = "JPEG文件(*.jpg)|*.jpg",
+                ShowHelp = true
+            };
+            if (saveDlg.ShowDialog()==DialogResult.OK)
+            {
+                string filename = saveDlg.FileName;
+                pictureBox1.Image.Save(filename, System.Drawing.Imaging.ImageFormat.Jpeg);
+            }
         }
     }
 }
