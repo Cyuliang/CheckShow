@@ -1,4 +1,10 @@
 ﻿using System;
+using System.Net;
+using System.Net.Sockets;
+using System.Runtime.InteropServices;
+using System.Text;
+using System.Threading;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace CheckShow
 {
@@ -12,6 +18,9 @@ namespace CheckShow
 
         private readonly string UVSSIp = Properties.Settings.Default.UVSSIp;
         private readonly int UVSSPort = Properties.Settings.Default.UVSSPort;
+
+        private IPAddress ip = null;
+        private Socket client = null;
 
         // SDK回调函数类型:
 
@@ -44,14 +53,14 @@ namespace CheckShow
 
         public Uvss()
         {
-            if(SafeNativeMethods.UVSSInitialize()==-1)
+            if (SafeNativeMethods.UVSSInitialize()==-1)
             {
                 Lognet.Log.Warn("初始化车底动态库错误");
             }
             else
             {
                 _TimerLink = new System.Threading.Timer(AutoLinkCallBack, null, TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(5));
-                //_TimerTestLink = new System.Threading.Timer(TestLinCallBack, null,-1,-1);
+                _TimerTestLink = new System.Threading.Timer(TestLinCallBack, null,-1,-1);
             }
             CheckInfoCallback = UVSSCheckInfoCallBack;
             MessageCallback = UVSSMessageCallback;
@@ -60,24 +69,43 @@ namespace CheckShow
             SafeNativeMethods.SetUVSSCheckInfoCallback(CheckInfoCallback);
         }
 
+
+        //[DllImport("kernel32.dll")]
+        //static extern uint GetTickCount();        
+        //static void Delay(int ms)
+        //{
+        //    uint start = GetTickCount();
+        //    while (GetTickCount() - start < ms)
+        //    {
+        //        Application.DoEvents();
+        //    }
+        //}
+
         /// <summary>
         /// 循环测试链接状态
         /// </summary>
         /// <param name="state"></param>
-        //private void TestLinCallBack(object state)
-        //{
-        //    int hanle = SafeNativeMethods.UVSSConnect(UVSSIp, UVSSPort);
-        //    if (hanle==-2)
-        //    {
-        //        _TimerLink.Change(-1, -1);
-        //        LinkStatusAction?.Invoke(true);
-        //    }
-        //    else
-        //    {
-        //        _TimerLink.Change(TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(5));
-        //        LinkStatusAction?.Invoke(false);
-        //    }
-        //}
+        private void TestLinCallBack(object state)
+        {
+            while(true)
+            {
+                try
+                {
+                    client.Send(Encoding.ASCII.GetBytes(""));
+                    _TimerLink?.Change(-1, -1);
+                    LinkStatusAction?.Invoke(true);
+                    Thread.Sleep(1000);
+                }
+                catch (Exception)
+                {
+                    client.Shutdown(SocketShutdown.Both);
+                    client.Close();
+                    _TimerLink?.Change(TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(5));
+                    LinkStatusAction?.Invoke(false);
+                    break;
+                }
+            }        
+        }
 
         /// <summary>
         /// 链接车底系统
@@ -88,13 +116,19 @@ namespace CheckShow
             int ret = SafeNativeMethods.UVSSConnect(UVSSIp, UVSSPort);
             if(ret>0)
             {
-                _TimerLink.Change(-1, -1);
-                //_TimerTestLink.Change(TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(5));
+                _TimerLink?.Change(-1, -1);
+
+                ip = IPAddress.Parse(UVSSIp);
+                client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                client.Connect(new IPEndPoint(ip, UVSSPort));//链接测试socket
+
+                _TimerTestLink?.Change(TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(0));
                 LinkStatusAction?.Invoke(true);
             }
             else
             {
-                _TimerLink.Change(TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(5));
+                SafeNativeMethods.UVSSDisconnect(ret);
+                _TimerLink?.Change(TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(5));
                 //_TimerTestLink.Change(-1, -1);
                 LinkStatusAction?.Invoke(false);
             }
@@ -139,6 +173,7 @@ namespace CheckShow
                     // TODO: 释放托管状态(托管对象)。
                     _TimerLink.Dispose();
                     _TimerTestLink.Dispose();
+                    client.Dispose();
                 }
 
                 // TODO: 释放未托管的资源(未托管的对象)并在以下内容中替代终结器。
