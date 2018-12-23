@@ -1,10 +1,5 @@
 ﻿using System.Windows.Forms;
-using System.Data.SQLite;
-using System.Data;
-using log4net;
 using System;
-using log4net.Config;
-using System.Reflection;
 using System.Drawing;
 
 namespace CheckShow
@@ -13,6 +8,11 @@ namespace CheckShow
     {
         private DataBase _DataBase = new DataBase();
         private Container _Container = new Container();
+        private Uvss _Uvss = new Uvss();
+
+        private delegate void UpdateUiBInvok(object state);
+        private delegate void UpdateUIMessageInvok(string Message);
+        private delegate void UpdateUIUVSS(bool status);
 
         private System.Threading.Timer _TimerDateStatus;
         private Action<string[]> ShowPicture;
@@ -27,6 +27,8 @@ namespace CheckShow
 
             _Container.LpnResult += InsertLpn;//车牌结果事件
             _Container.GetStatusAction += ContainerStatus;//链接状态
+            _Uvss.MessageAction += UVSSMessage;
+            _Uvss.LinkStatusAction += UVSSStatus;
 
             dateTimePicker1.CustomFormat = "yyyy-MM-dd HH:mm:ss";
             dateTimePicker1.Format = DateTimePickerFormat.Custom;
@@ -44,12 +46,56 @@ namespace CheckShow
         }
 
         /// <summary>
+        /// 车底链接状态
+        /// </summary>
+        /// <param name="obj"></param>
+        private void UVSSStatus(bool obj)
+        {
+            if(statusStrip1.InvokeRequired)
+            {
+                statusStrip1.Invoke(new UpdateUIUVSS(UVSSStatus), new object[] { obj });
+            }
+            else
+            {
+                if (obj)
+                {
+                    toolStripStatusLabel5.BackColor = Color.DarkGreen;
+                }
+                else
+                {
+                    toolStripStatusLabel5.BackColor = Color.DarkRed;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 车底数据
+        /// </summary>
+        /// <param name="obj"></param>
+        private void UVSSMessage(string obj)
+        {
+            UpdateUi(string.Format("车底触发：{0}",obj));
+            _TimerDateStatus.Change(TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(0));
+            if (_DataBase.InsertData(obj)==1)
+            {
+                Lognet.Log.Info("插入车底数据成功");
+            }
+        }
+
+        /// <summary>
         /// 定时更新状态
         /// </summary>
         /// <param name="state"></param>
         private void DataCallBack(object state)
         {
-            toolStripStatusLabel4.Text = "等待车辆数据！";
+            if(statusStrip1.InvokeRequired)
+            {
+                statusStrip1?.Invoke(new UpdateUiBInvok(DataCallBack), new object[] { state });
+            }
+            else
+            {
+                toolStripStatusLabel4.Text = "等待车辆数据！";
+            }
         }
 
         /// <summary>
@@ -76,10 +122,29 @@ namespace CheckShow
         /// <param name="arg2"></param>
         private void InsertLpn(DateTime arg1, string arg2)
         {
-            toolStripStatusLabel4.Text = string.Format("Date：{0} 车辆通过：{1}",arg1.ToString("yyyy-MM-DD HH:mm:ss"),arg2);
+            UpdateUi(string.Format("Date：{0} 车辆通过：{1}", arg1.ToString("yyyy-MM-DD HH:mm:ss"), arg2));
             _TimerDateStatus.Change(TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(0));
 
-            var mes = _DataBase.InsertData(arg1.ToUniversalTime().AddHours(8), ReturnImagePath(arg1.ToUniversalTime().AddHours(8), arg2));
+            if(_DataBase.InsertData(arg1, ReturnImagePath(arg1, arg2))==1)
+            {
+                Lognet.Log.Info("插入集装箱数据成功");
+            }
+        }
+
+        /// <summary>
+        /// 车辆触发更新状态提示
+        /// </summary>
+        /// <param name="Message"></param>
+        private void UpdateUi(string Message)
+        {
+            if(statusStrip1.InvokeRequired)
+            {
+                statusStrip1?.Invoke(new UpdateUIMessageInvok(UpdateUi), new object[] { Message });
+            }
+            else
+            {
+                toolStripStatusLabel4.Text = Message;
+            }
         }
 
         /// <summary>
@@ -121,36 +186,48 @@ namespace CheckShow
 
         /// <summary>
         /// 返回图片路径
-        /// 如果第4张图片为空，证明为小箱4张图片
+        /// 第4张图片是尾图尾号为10。
         /// </summary>
         /// <param name="dt"></param>
         /// <param name="Plate"></param>
         /// <returns></returns>
         private string[] ReturnImagePath(DateTime dt,string Plate)
         {
-            string[] Message = new string[9] {Plate,null,null,null,null,null,null,null,null};
-            string Path = string.Format(@"{0}\{1}\0{2}\0{3}",Container_ImagePath,dt.Year.ToString(),dt.Month.ToString(),dt.Day.ToString());
-            for(int i=1;i<7;i++)
+            string[] Message = new string[7] {Plate,null,null,null,null,null,null};
+            string Path = string.Format(@"{0}\{1}\{2}\{3}",Container_ImagePath,dt.Year.ToString(),dt.Month.ToString().PadLeft(2,'0'),dt.Day.ToString().PadLeft(2,'0'));
+            for(int i=1;i<4;i++)
             {
                 Message[i] = string.Format(@"{0}\{1}{2}{3}.jpg", Path, dt.ToString("yyyyMMddHHmmss"), Container_Lane, i);
                 if (!System.IO.File.Exists(Message[i]))
                 {
-                    Message[i] = null;
+                    Message[i] = "nul";
                 }
             }
-            //车牌
-            Message[7] = string.Format(@"{0}\{1}{2}.jpg", Path, dt.ToString("yyyyMMddHHmmss"), Container_Plate_Name);
-            if (!System.IO.File.Exists(Message[7]))
+            //后相机
+            Message[4] = string.Format(@"{0}\{1}{2}10.jpg", Path, dt.ToString("yyyyMMddHHmmss"), Container_Lane);
+            if (!System.IO.File.Exists(Message[4]))
             {
-                Message[7] = null;
+                Message[4] = "nul";
             }
-            Path = string.Format(@"{0}\{1}\0{2}\0{3}", Container_ChediPath, dt.Year.ToString(), dt.Month.ToString(), dt.Day.ToString());
-            Message[8] = string.Format(@"{0}\{1}.jpg", Path, dt.ToString("yyyyMMddHHmmss"));//车底图片
-            if (!System.IO.File.Exists(Message[8]))
+            //车牌
+            Message[5] = string.Format(@"{0}\{1}{2}{3}.jpg", Path, dt.ToString("yyyyMMddHHmmss"),Container_Lane ,Container_Plate_Name);
+            if (!System.IO.File.Exists(Message[5]))
             {
-                Message[8] = null;
+                Message[5] = "nul";
+            }
+            Path = string.Format(@"{0}\{1}\{2}\{3}", Container_ChediPath, dt.Year.ToString(), dt.Month.ToString().PadLeft(2,'0'), dt.Day.ToString().PadLeft(2,'0'));
+            Message[6] = string.Format(@"{0}\{1}.jpg", Path, dt.ToString("yyyyMMddHHmmss"));//车底图片
+            if (!System.IO.File.Exists(Message[6]))
+            {
+                Message[6] = "nul";
             }
             return Message;
+        }
+
+        private void Button1_Click(object sender, EventArgs e)
+        {
+            LogForm _logForm = new LogForm();
+            _logForm.Show();
         }
     }
 }

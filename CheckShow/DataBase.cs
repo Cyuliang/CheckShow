@@ -38,6 +38,35 @@ namespace CheckShow
             }
         }
 
+        /// <summary>
+        /// 插入车底图片
+        /// </summary>
+        /// <param name="UVSSPath"></param>
+        /// <returns></returns>
+        public int InsertData( string UVSSPath)
+        {
+            SQLiteParameter[] parameters = {
+                //new SQLiteParameter("@dt",DbType.DateTime),
+                new SQLiteParameter("@UVSSPath",DbType.String,10)
+            };
+            int result = -1;
+            try
+            {
+                //parameters[0].Value = dt;
+                parameters[0].Value = UVSSPath;
+                //command.CommandText = @"UPDATE Picture SET P_6=@UVSSPath WHERE P_6='nul' order by ID desc limit 1";
+                command.CommandText = "update Picture set p_6=@UVSSPath where ID =(select ID from Picture order by ID desc limit 1) and P_6='nul'";
+                command.Parameters.AddRange(parameters);
+                result = command.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                Lognet.Log.Error("插入数据错误", ex);
+            }
+
+            return result;
+        }
+
         public int InsertData(DateTime dt,string[] Message)
         {
             SQLiteParameter[] parameters = {
@@ -48,9 +77,7 @@ namespace CheckShow
                     new SQLiteParameter("@P_3",DbType.String,10),
                     new SQLiteParameter("@P_4",DbType.String,10),
                     new SQLiteParameter("@P_5",DbType.String,10),
-                    new SQLiteParameter("@P_6",DbType.String,10),
-                    new SQLiteParameter("@P_7",DbType.String,10),
-                    new SQLiteParameter("@P_8",DbType.String,10)
+                    new SQLiteParameter("@P_6",DbType.String,10)    
                 };
             int result=-1;
             try
@@ -63,8 +90,8 @@ namespace CheckShow
                     i++;
                 }
 
-                command.CommandText = "INSERT INTO Picture(Date,Plate,P_1,P_2,P_3,P_4,P_5,P_6,P_7,P_8)" +
-                        " VALUES(@Date,@Plate,@P_1,@P_2,@P_3,@P_4,@P_5,@P_6,@P_7,@P_8)";
+                command.CommandText = "INSERT INTO Picture(Date,Plate,P_1,P_2,P_3,P_4,P_5,P_6)" +
+                        " VALUES(@Date,@Plate,@P_1,@P_2,@P_3,@P_4,@P_5,@P_6)";
 
                 command.Parameters.AddRange(parameters);
                 result = command.ExecuteNonQuery();
@@ -72,7 +99,7 @@ namespace CheckShow
             catch (Exception ex)
             {
                 Lognet.Log.Error("插入数据错误", ex);
-                connection.Close();
+                //connection.Close();
             }
             return result;
         }

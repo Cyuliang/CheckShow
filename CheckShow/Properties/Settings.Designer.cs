@@ -49,7 +49,7 @@ namespace CheckShow.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("D:\\移动硬盘文件\\码头图片\\箱号图片\\cic-10")]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\cc\\Desktop\\Image")]
         public string Container_ImagePath {
             get {
                 return ((string)(this["Container_ImagePath"]));
@@ -85,13 +85,37 @@ namespace CheckShow.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("D:\\移动硬盘文件\\码头图片\\箱号图片\\cic-10")]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\cc\\Desktop\\Image")]
         public string Container_ChediPath {
             get {
                 return ((string)(this["Container_ChediPath"]));
             }
             set {
                 this["Container_ChediPath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("127.0.0.1")]
+        public string UVSSIp {
+            get {
+                return ((string)(this["UVSSIp"]));
+            }
+            set {
+                this["UVSSIp"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("20145")]
+        public int UVSSPort {
+            get {
+                return ((int)(this["UVSSPort"]));
+            }
+            set {
+                this["UVSSPort"] = value;
             }
         }
     }

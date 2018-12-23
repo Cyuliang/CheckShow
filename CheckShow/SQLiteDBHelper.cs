@@ -36,15 +36,13 @@ namespace CheckShow
                     command.CommandText = @"CREATE TABLE `Picture` (
 	                        `ID`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 	                        `Date`	datetime,
-	                        `Plate`	TEXT NOT NULL DEFAULT 'nul',
+	                        `Plate`	TEXT DEFAULT 'nul',
 	                        `P_1`	TEXT DEFAULT 'nul',
 	                        `P_2`	TEXT DEFAULT 'nul',
 	                        `P_3`	TEXT DEFAULT 'nul',
 	                        `P_4`	TEXT DEFAULT 'nul',
 	                        `P_5`	TEXT DEFAULT 'nul',
-	                        `P_6`	TEXT DEFAULT 'nul',
-	                        `P_7`	TEXT DEFAULT 'nul',
-	                        `P_8`	TEXT DEFAULT 'nul'
+	                        `P_6`	TEXT DEFAULT 'nul'
                     )";
                     command.ExecuteNonQuery();
                     command.CommandText = @"CREATE INDEX `Plate` ON `Picture` (`Plate`	ASC)";
@@ -155,7 +153,7 @@ namespace CheckShow
             {
                 connection.Open();
                 DataTable data = connection.GetSchema("TABLES");
-                connection.Close();
+                //connection.Close();
                 //foreach (DataColumn column in data.Columns) 
                 //{ 
                 //  Console.WriteLine(column.ColumnName); 

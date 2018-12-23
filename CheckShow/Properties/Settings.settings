@@ -9,7 +9,7 @@
       <Value Profile="(Default)">12011</Value>
     </Setting>
     <Setting Name="Container_ImagePath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">D:\移动硬盘文件\码头图片\箱号图片\cic-10</Value>
+      <Value Profile="(Default)">C:\Users\cc\Desktop\Image</Value>
     </Setting>
     <Setting Name="Container_Lane" Type="System.String" Scope="User">
       <Value Profile="(Default)">10</Value>
@@ -18,7 +18,13 @@
       <Value Profile="(Default)">99</Value>
     </Setting>
     <Setting Name="Container_ChediPath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">D:\移动硬盘文件\码头图片\箱号图片\cic-10</Value>
+      <Value Profile="(Default)">C:\Users\cc\Desktop\Image</Value>
+    </Setting>
+    <Setting Name="UVSSIp" Type="System.String" Scope="User">
+      <Value Profile="(Default)">127.0.0.1</Value>
+    </Setting>
+    <Setting Name="UVSSPort" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">20145</Value>
     </Setting>
   </Settings>
 </SettingsFile>
