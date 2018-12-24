@@ -15,7 +15,10 @@ namespace CheckShow
         private delegate void UpdateUIUVSS(bool status);
 
         private System.Threading.Timer _TimerDateStatus;
+        private DateTime LpnDt;
+
         private Action<string[]> ShowPicture;
+
         private string Container_ImagePath = Properties.Settings.Default.Container_ImagePath;
         private string Container_Lane = Properties.Settings.Default.Container_Lane;
         private string Container_Plate_Name = Properties.Settings.Default.Container_Plate_Name;
@@ -76,7 +79,13 @@ namespace CheckShow
         {
             UpdateUi(string.Format("车底触发：{0}",obj));
             _TimerDateStatus.Change(TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(0));
-            if (_DataBase.InsertData(obj)==1)
+            string CheDiPath = string.Format(@"{0}\{1}\{2}\{3}\{4}_chedi.jpg", Container_ChediPath, LpnDt.Year.ToString(), LpnDt.Month.ToString().PadLeft(2, '0'), LpnDt.Day.ToString().PadLeft(2, '0'), LpnDt.ToString("yyyyMMddHHmmss"));
+
+            if (System.IO.File.Exists(obj))
+            {
+                Image.FromFile(obj).Save(CheDiPath, System.Drawing.Imaging.ImageFormat.Jpeg);
+            }
+            if (_DataBase.InsertData(CheDiPath) ==1)
             {
                 Lognet.Log.Info("插入车底数据成功");
             }
@@ -129,6 +138,8 @@ namespace CheckShow
             {
                 Lognet.Log.Info("插入集装箱数据成功");
             }
+
+            LpnDt = arg1;//车底图片保位置
         }
 
         /// <summary>

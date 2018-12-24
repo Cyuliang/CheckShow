@@ -44,7 +44,7 @@ namespace CheckShow
         /// <param name="o"></param>
         private void LinkCallBack(object o)
         {
-            Lognet.Log.Info("开始链接箱号识别系统");
+            //Lognet.Log.Info("开始链接箱号识别系统");
             SetMessage?.Invoke("Link Container Init Start");
             _AxVECONclient.Connect2Server();
         }
@@ -89,7 +89,7 @@ namespace CheckShow
         /// <param name="e"></param>
         private void _AxVECONclient_OnServerError(object sender, System.EventArgs e)
         {
-            Lognet.Log.Info("箱号识别系统链接错误");
+            //Lognet.Log.Info("箱号识别系统链接错误");
             SetMessage?.Invoke("Link Container Error");
             //_TimerConnect2Server.Change(TimeSpan.FromSeconds(5),TimeSpan.FromSeconds(0));
         }
@@ -101,7 +101,7 @@ namespace CheckShow
         /// <param name="e"></param>
         private void _AxVECONclient_OnServerDisconnected(object sender, System.EventArgs e)
         {
-            Lognet.Log.Info("箱号识别系统链接失败");
+            //Lognet.Log.Info("箱号识别系统链接失败");
             SetMessage?.Invoke("Link Container Disconnect");
             GetStatusAction?.Invoke(false);
             if(_AutoLink)

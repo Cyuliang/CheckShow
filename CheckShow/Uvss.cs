@@ -98,6 +98,7 @@ namespace CheckShow
                 }
                 catch (Exception)
                 {
+                    Lognet.Log.Info("车底系统端服务关闭");
                     client.Shutdown(SocketShutdown.Both);
                     client.Close();
                     _TimerLink?.Change(TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(5));
@@ -124,6 +125,8 @@ namespace CheckShow
 
                 _TimerTestLink?.Change(TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(0));
                 LinkStatusAction?.Invoke(true);
+
+                Lognet.Log.Info("车底系统链接成功");
             }
             else
             {
@@ -171,9 +174,9 @@ namespace CheckShow
                 if (disposing)
                 {
                     // TODO: 释放托管状态(托管对象)。
+                    client.Dispose();
                     _TimerLink.Dispose();
                     _TimerTestLink.Dispose();
-                    client.Dispose();
                 }
 
                 // TODO: 释放未托管的资源(未托管的对象)并在以下内容中替代终结器。
