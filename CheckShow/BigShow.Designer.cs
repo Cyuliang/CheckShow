@@ -93,6 +93,7 @@
             this.Controls.Add(this.toolStrip1);
             this.Name = "BigShow";
             this.Text = "BigShow";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.BigShow_FormClosed);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);

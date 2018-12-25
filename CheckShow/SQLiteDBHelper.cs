@@ -52,6 +52,34 @@ namespace CheckShow
                 }
             }
         }
+
+        /// <summary>
+        /// 创建Log数据卡
+        /// </summary>
+        /// <param name="dbPath"></param>
+        public static void CreateLogDB(string dbPath)
+        {
+            using (SQLiteConnection connection = new SQLiteConnection("Data Source=" + dbPath))
+            {
+                connection.Open();
+                using (SQLiteCommand command = new SQLiteCommand(connection))
+                {
+                    command.CommandText = @"CREATE TABLE `Log` (
+	                    `LogId`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	                    `Date`	DATETIME NOT NULL,
+	                    `Level`	VARCHAR ( 50 ) NOT NULL,
+	                    `Logger`	VARCHAR ( 255 ) NOT NULL,
+	                    `Message`	TEXT DEFAULT 'nul',
+	                    `Exception`	TEXT DEFAULT 'nul');";
+                    command.ExecuteNonQuery();
+                    command.CommandText = @"CREATE INDEX `Level` ON `Log` (`Level`	ASC)";
+                    command.ExecuteNonQuery();
+                    command.CommandText = @"CREATE INDEX `Date` ON `Log`  (`Date`	ASC)";
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
         /// <summary> 
         /// 对SQLite数据库执行增删改操作，返回受影响的行数。 
         /// </summary> 

@@ -1,5 +1,6 @@
 ﻿using AxVeconclientProj;
 using System;
+using System.Windows.Forms;
 
 namespace CheckShow
 {
@@ -54,7 +55,7 @@ namespace CheckShow
         /// </summary>
         public void LinkC(int i)
         {
-            Lognet.Log.Info("箱号识别系统链接成功");
+            Lognet.Log.Warn("箱号识别系统链接成功");
             SetMessage?.Invoke("Link Container Start");
             _AxVECONclient.Connect2Server();
             _AutoLink = true;
@@ -65,7 +66,7 @@ namespace CheckShow
         /// </summary>
         public void CloseC(int i)
         {
-            Lognet.Log.Info("关闭链接箱号识别系统");
+            Lognet.Log.Warn("关闭链接箱号识别系统");
             SetMessage?.Invoke("Container Close");
             _AxVECONclient.Disconnect();
             _TimerConnect2Server.Change(-1,-1);
@@ -117,7 +118,7 @@ namespace CheckShow
         /// <param name="e"></param>
         private void _AxVECONclient_OnServerConnected(object sender, System.EventArgs e)
         {
-            Lognet.Log.Info("箱号识别系统链接成功");
+            Lognet.Log.Warn("箱号识别系统链接成功");
             SetMessage?.Invoke("Link Container Connected");
             GetStatusAction?.Invoke(true);
             _TimerConnect2Server.Change(-1,-1);

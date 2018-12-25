@@ -16,6 +16,7 @@ namespace CheckShow
 
         private System.Threading.Timer _TimerDateStatus;
         private DateTime LpnDt;
+        //private bool ContainerStatus = false;//判断箱号是否处理完成
 
         private Action<string[]> ShowPicture;
 
@@ -209,29 +210,30 @@ namespace CheckShow
             for(int i=1;i<4;i++)
             {
                 Message[i] = string.Format(@"{0}\{1}{2}{3}.jpg", Path, dt.ToString("yyyyMMddHHmmss"), Container_Lane, i);
-                if (!System.IO.File.Exists(Message[i]))
-                {
-                    Message[i] = "nul";
-                }
+                //if (!System.IO.File.Exists(Message[i]))
+                //{
+                //    Message[i] = "nul";
+                //}
             }
             //后相机
             Message[4] = string.Format(@"{0}\{1}{2}10.jpg", Path, dt.ToString("yyyyMMddHHmmss"), Container_Lane);
-            if (!System.IO.File.Exists(Message[4]))
-            {
-                Message[4] = "nul";
-            }
+            //if (!System.IO.File.Exists(Message[4]))
+            //{
+            //    Message[4] = "nul";
+            //}
             //车牌
             Message[5] = string.Format(@"{0}\{1}{2}{3}.jpg", Path, dt.ToString("yyyyMMddHHmmss"),Container_Lane ,Container_Plate_Name);
-            if (!System.IO.File.Exists(Message[5]))
-            {
-                Message[5] = "nul";
-            }
-            Path = string.Format(@"{0}\{1}\{2}\{3}", Container_ChediPath, dt.Year.ToString(), dt.Month.ToString().PadLeft(2,'0'), dt.Day.ToString().PadLeft(2,'0'));
-            Message[6] = string.Format(@"{0}\{1}.jpg", Path, dt.ToString("yyyyMMddHHmmss"));//车底图片
-            if (!System.IO.File.Exists(Message[6]))
-            {
-                Message[6] = "nul";
-            }
+            //if (!System.IO.File.Exists(Message[5]))
+            //{
+            //    Message[5] = "nul";
+            //}
+            Message[6] = null;
+            //Path = string.Format(@"{0}\{1}\{2}\{3}", Container_ChediPath, dt.Year.ToString(), dt.Month.ToString().PadLeft(2, '0'), dt.Day.ToString().PadLeft(2, '0'));
+            //Message[6] = string.Format(@"{0}\{1}.jpg", Path, dt.ToString("yyyyMMddHHmmss"));//车底图片
+            //if (!System.IO.File.Exists(Message[6]))
+            //{
+            //    Message[6] = "nul";
+            //}
             return Message;
         }
 

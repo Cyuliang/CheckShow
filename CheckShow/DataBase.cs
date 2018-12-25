@@ -34,7 +34,13 @@ namespace CheckShow
             if (!System.IO.File.Exists(DataBase))
             {
                 SQLiteDBHelper.CreateDB(DataBase);
-                Lognet.Log.Warn("数据库不存在，重新创建数据库");
+                Lognet.Log.Warn("箱号数据库不存在，重新创建数据库");
+            }
+            DataBase = "Log.db";
+            if (!System.IO.File.Exists(DataBase))
+            {
+                SQLiteDBHelper.CreateLogDB(DataBase);
+                Lognet.Log.Warn("日志数据库不存在，重新创建数据库");
             }
         }
 

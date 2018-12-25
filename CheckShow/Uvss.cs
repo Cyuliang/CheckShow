@@ -98,7 +98,7 @@ namespace CheckShow
                 }
                 catch (Exception)
                 {
-                    Lognet.Log.Info("车底系统端服务关闭");
+                    Lognet.Log.Warn("车底系统端服务关闭");
                     client.Shutdown(SocketShutdown.Both);
                     client.Close();
                     _TimerLink?.Change(TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(5));
@@ -126,7 +126,7 @@ namespace CheckShow
                 _TimerTestLink?.Change(TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(0));
                 LinkStatusAction?.Invoke(true);
 
-                Lognet.Log.Info("车底系统链接成功");
+                Lognet.Log.Warn("车底系统链接成功");
             }
             else
             {
@@ -174,7 +174,7 @@ namespace CheckShow
                 if (disposing)
                 {
                     // TODO: 释放托管状态(托管对象)。
-                    client.Dispose();
+                    client?.Dispose();
                     _TimerLink.Dispose();
                     _TimerTestLink.Dispose();
                 }

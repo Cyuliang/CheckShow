@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 
 namespace CheckShow
@@ -63,28 +64,28 @@ namespace CheckShow
                 this.Text = str[2]+"-（单击放大图片）";
                 if (str[3] != null && System.IO.File.Exists(str[3]))
                 {
-                    pictureBox2.Image = Image.FromFile(str[3]);
+                    pictureBox2.Image = ImageFromStream(str[3]);
                 }
                 if (str[4] != null && System.IO.File.Exists(str[4]))
                 {
-                    pictureBox5.Image = Image.FromFile(str[4]);
+                    pictureBox5.Image = ImageFromStream(str[4]);
                 }
                 if (str[5] != null && System.IO.File.Exists(str[5]))
                 {
-                    pictureBox6.Image = Image.FromFile(str[5]);
+                    pictureBox6.Image = ImageFromStream(str[5]);
                 }
                 if (str[6] != null && System.IO.File.Exists(str[6]))
                 {
-                    pictureBox3.Image = Image.FromFile(str[6]);
+                    pictureBox3.Image = ImageFromStream(str[6]);
                 }
                 if (str[7] != null && System.IO.File.Exists(str[7]))
                 {
-                    pictureBox4.Image = Image.FromFile(str[7]);
+                    pictureBox4.Image = ImageFromStream(str[7]);
                 }
 
                 if (str[8] != null && System.IO.File.Exists(str[8]))
                 {
-                    pictureBox1.Image = Image.FromFile(str[8]);
+                    pictureBox1.Image = ImageFromStream(str[8]);
                 }
             }
             catch (Exception)
@@ -139,6 +140,28 @@ namespace CheckShow
             BigShowPictureFunc?.Invoke(image,lable);
             _BigShow.WindowState = FormWindowState.Maximized;
             _BigShow.ShowDialog(); 
+        }
+
+        private void Picture_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            foreach(Control control in Controls)
+            {
+                if(control is System.Windows.Forms.PictureBox)
+                {
+                    PictureBox p = (PictureBox)control;
+                    p.Image = null;
+                    p.Dispose();
+                }
+            }
+        }
+
+        private Image ImageFromStream(string image)
+        {
+            FileStream stream = new FileStream(image,FileMode.Open,FileAccess.Read);
+            Image img= Image.FromStream(stream);
+            stream.Close();
+            stream.Dispose();
+            return (img);
         }
     }
 }

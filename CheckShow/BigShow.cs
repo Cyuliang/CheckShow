@@ -28,7 +28,7 @@ namespace CheckShow
         /// <param name="e"></param>
         private void PictureBox1_DoubleClick(object sender, EventArgs e)
         {
-            this.Close();
+            this.Close();            
         }
 
         /// <summary>
@@ -64,6 +64,11 @@ namespace CheckShow
                 string filename = saveDlg.FileName;
                 pictureBox1.Image.Save(filename, System.Drawing.Imaging.ImageFormat.Jpeg);
             }
+        }
+
+        private void BigShow_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Dispose();
         }
     }
 }
