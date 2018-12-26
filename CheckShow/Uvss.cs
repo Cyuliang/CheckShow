@@ -133,7 +133,7 @@ namespace CheckShow
                 SafeNativeMethods.UVSSDisconnect(ret);
                 _TimerLink?.Change(TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(5));
                 //_TimerTestLink.Change(-1, -1);
-                LinkStatusAction?.Invoke(false);
+                //LinkStatusAction?.Invoke(false);
             }
         }
 
@@ -174,11 +174,11 @@ namespace CheckShow
                 if (disposing)
                 {
                     // TODO: 释放托管状态(托管对象)。
-                    client?.Dispose();
+                    //client?.Dispose();
                     _TimerLink.Dispose();
                     _TimerTestLink.Dispose();
+                    client?.Dispose();
                 }
-
                 // TODO: 释放未托管的资源(未托管的对象)并在以下内容中替代终结器。
                 // TODO: 将大型字段设置为 null。
                 SafeNativeMethods.UVSSUninitialize();

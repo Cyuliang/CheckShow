@@ -1,11 +1,10 @@
 ﻿using AxVeconclientProj;
 using System;
-using System.Windows.Forms;
 
 namespace CheckShow
 {
     class Container: IDisposable
-    {
+    {        
         private System.Threading.Timer _TimerConnect2Server=null;
         private bool _AutoLink = true;
         private AxVECONclient _AxVECONclient;

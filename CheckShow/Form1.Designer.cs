@@ -67,6 +67,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator1)).BeginInit();
             this.bindingNavigator1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataSet1)).BeginInit();
@@ -273,6 +274,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.button1);
             this.groupBox1.Controls.Add(this.Logbutton);
             this.groupBox1.Controls.Add(this.textBox1);
             this.groupBox1.Controls.Add(this.radioPlateButton);
@@ -291,7 +293,7 @@
             // 
             // Logbutton
             // 
-            this.Logbutton.Location = new System.Drawing.Point(666, 20);
+            this.Logbutton.Location = new System.Drawing.Point(399, 55);
             this.Logbutton.Name = "Logbutton";
             this.Logbutton.Size = new System.Drawing.Size(75, 23);
             this.Logbutton.TabIndex = 8;
@@ -330,7 +332,7 @@
             // 
             // FindButton
             // 
-            this.FindButton.Location = new System.Drawing.Point(558, 21);
+            this.FindButton.Location = new System.Drawing.Point(318, 56);
             this.FindButton.Name = "FindButton";
             this.FindButton.Size = new System.Drawing.Size(75, 23);
             this.FindButton.TabIndex = 3;
@@ -342,7 +344,7 @@
             // 
             this.dateTimePicker2.Location = new System.Drawing.Point(318, 20);
             this.dateTimePicker2.Name = "dateTimePicker2";
-            this.dateTimePicker2.Size = new System.Drawing.Size(200, 21);
+            this.dateTimePicker2.Size = new System.Drawing.Size(237, 21);
             this.dateTimePicker2.TabIndex = 2;
             // 
             // label1
@@ -380,6 +382,16 @@
             this.dataGridView1.Size = new System.Drawing.Size(794, 297);
             this.dataGridView1.TabIndex = 1;
             this.dataGridView1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView1_CellDoubleClick);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(480, 54);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 9;
+            this.button1.Text = "显示图片";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
             // Form1
             // 
@@ -442,6 +454,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
         private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.Button button1;
     }
 }
 

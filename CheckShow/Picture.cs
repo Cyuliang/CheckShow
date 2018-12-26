@@ -104,6 +104,10 @@ namespace CheckShow
             Image image = null;
             string lable = string.Empty;
             PictureBox picture = (PictureBox)sender;
+            if(picture.Image==null)
+            {
+                return;
+            }
             switch(picture.Tag)
             {
                 case 1:
@@ -160,7 +164,7 @@ namespace CheckShow
             FileStream stream = new FileStream(image,FileMode.Open,FileAccess.Read);
             Image img= Image.FromStream(stream);
             stream.Close();
-            stream.Dispose();
+            //stream.Dispose();
             return (img);
         }
     }

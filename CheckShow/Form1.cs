@@ -82,14 +82,22 @@ namespace CheckShow
             _TimerDateStatus.Change(TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(0));
             string CheDiPath = string.Format(@"{0}\{1}\{2}\{3}\{4}_chedi.jpg", Container_ChediPath, LpnDt.Year.ToString(), LpnDt.Month.ToString().PadLeft(2, '0'), LpnDt.Day.ToString().PadLeft(2, '0'), LpnDt.ToString("yyyyMMddHHmmss"));
 
-            if (System.IO.File.Exists(obj))
+            try
             {
-                Image.FromFile(obj).Save(CheDiPath, System.Drawing.Imaging.ImageFormat.Jpeg);
+                if (System.IO.File.Exists(obj))
+                {
+                    Image.FromFile(obj).Save(CheDiPath, System.Drawing.Imaging.ImageFormat.Jpeg);
+                }
+                if (_DataBase.InsertData(CheDiPath) == 1)
+                {
+                    Lognet.Log.Info("插入车底数据成功");
+                }
             }
-            if (_DataBase.InsertData(CheDiPath) ==1)
+            catch (Exception)
             {
-                Lognet.Log.Info("插入车底数据成功");
+                Lognet.Log.Warn("车底图片保存路径不存在！");
             }
+
         }
 
         /// <summary>
@@ -184,6 +192,10 @@ namespace CheckShow
         /// <param name="e"></param>
         private void DataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
+            if(dataGridView1.Rows.Count==0)
+            {
+                return;
+            }
             string[] str = new string[dataGridView1.Columns.Count];
             int row = dataGridView1.CurrentRow.Index;
             for(int i=0;i<dataGridView1.Columns.Count;i++)
@@ -193,7 +205,7 @@ namespace CheckShow
             Picture _Picture = new Picture();
             ShowPicture += _Picture.ShowPicture;
             ShowPicture?.Invoke(str);
-            _Picture.Show();
+            _Picture.ShowDialog();
         }
 
         /// <summary>
@@ -227,7 +239,7 @@ namespace CheckShow
             //{
             //    Message[5] = "nul";
             //}
-            Message[6] = null;
+            Message[6] = "nul";
             //Path = string.Format(@"{0}\{1}\{2}\{3}", Container_ChediPath, dt.Year.ToString(), dt.Month.ToString().PadLeft(2, '0'), dt.Day.ToString().PadLeft(2, '0'));
             //Message[6] = string.Format(@"{0}\{1}.jpg", Path, dt.ToString("yyyyMMddHHmmss"));//车底图片
             //if (!System.IO.File.Exists(Message[6]))
@@ -241,6 +253,29 @@ namespace CheckShow
         {
             LogForm _logForm = new LogForm();
             _logForm.Show();
+        }
+
+        /// <summary>
+        /// 显示图片
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            if(dataGridView1.Rows.Count==0)
+            {
+                return;
+            }
+            string[] str = new string[dataGridView1.Columns.Count];
+            int row = dataGridView1.CurrentRow.Index;
+            for (int i = 0; i < dataGridView1.Columns.Count; i++)
+            {
+                str[i] = dataGridView1.Rows[row].Cells[i].Value.ToString();
+            }
+            Picture _Picture = new Picture();
+            ShowPicture += _Picture.ShowPicture;
+            ShowPicture?.Invoke(str);
+            _Picture.ShowDialog();
         }
     }
 }

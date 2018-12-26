@@ -6,7 +6,7 @@ namespace CheckShow
     [SuppressUnmanagedCodeSecurityAttribute]
     internal class SafeNativeMethods
     {                
-        const string DllName = "UVSSSDKD.dll";
+        const string DllName = "UVSSSDK.dll";
 
         // UVSSInitialize: 初始化SDK (仅需调用一次)
         // 返回值: 1: 初始化成功 -1: 出错
