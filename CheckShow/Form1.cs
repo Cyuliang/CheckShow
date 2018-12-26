@@ -206,6 +206,8 @@ namespace CheckShow
             ShowPicture += _Picture.ShowPicture;
             ShowPicture?.Invoke(str);
             _Picture.ShowDialog();
+            ShowPicture -= _Picture.ShowPicture;            
+            _Picture.Dispose();
         }
 
         /// <summary>
@@ -276,6 +278,8 @@ namespace CheckShow
             ShowPicture += _Picture.ShowPicture;
             ShowPicture?.Invoke(str);
             _Picture.ShowDialog();
+            ShowPicture -= _Picture.ShowPicture;
+            _Picture.Dispose();
         }
     }
 }

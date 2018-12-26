@@ -90,7 +90,7 @@ namespace CheckShow
             }
             catch (Exception)
             {
-                //MessageBox.Show("error");
+                MessageBox.Show("image error");
             }
         }
 
@@ -143,17 +143,18 @@ namespace CheckShow
             BigShowPictureFunc += _BigShow.ShowPicture;
             BigShowPictureFunc?.Invoke(image,lable);
             _BigShow.WindowState = FormWindowState.Maximized;
-            _BigShow.ShowDialog(); 
+            _BigShow.ShowDialog();
+            BigShowPictureFunc -= _BigShow.ShowPicture;
         }
 
         private void Picture_FormClosing(object sender, FormClosingEventArgs e)
         {
             foreach(Control control in Controls)
             {
-                if(control is System.Windows.Forms.PictureBox)
+                if(control is PictureBox)
                 {
                     PictureBox p = (PictureBox)control;
-                    p.Image = null;
+                    p.Image = null;                                        
                     p.Dispose();
                 }
             }
@@ -166,6 +167,13 @@ namespace CheckShow
             stream.Close();
             //stream.Dispose();
             return (img);
+        }
+
+        private void Picture_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Dispose();
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
         }
     }
 }
