@@ -69,6 +69,8 @@ namespace CheckShow
         private void BigShow_FormClosed(object sender, FormClosedEventArgs e)
         {
             Dispose();
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
         }
     }
 }

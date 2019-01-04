@@ -71,6 +71,9 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>1189944372_b.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="log4net">
       <HintPath>.\log4net.dll</HintPath>
@@ -217,6 +220,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\baocun.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="1189944372_b.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

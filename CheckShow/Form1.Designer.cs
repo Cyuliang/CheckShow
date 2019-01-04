@@ -68,6 +68,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
+            this.button2 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator1)).BeginInit();
             this.bindingNavigator1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataSet1)).BeginInit();
@@ -274,6 +276,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.button2);
             this.groupBox1.Controls.Add(this.button1);
             this.groupBox1.Controls.Add(this.Logbutton);
             this.groupBox1.Controls.Add(this.textBox1);
@@ -393,6 +396,24 @@
             this.dataGridView1.TabIndex = 1;
             this.dataGridView1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView1_CellDoubleClick);
             // 
+            // notifyIcon1
+            // 
+            this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
+            this.notifyIcon1.Text = "深圳众百源科技有限公司-车体数据查询工具";
+            this.notifyIcon1.Visible = true;
+            this.notifyIcon1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseDoubleClick);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(575, 20);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 10;
+            this.button2.Text = "清除数据表";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Visible = false;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -403,7 +424,8 @@
             this.Controls.Add(this.bindingNavigator1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "车体拍照数据查询";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator1)).EndInit();
             this.bindingNavigator1.ResumeLayout(false);
             this.bindingNavigator1.PerformLayout();
@@ -456,6 +478,8 @@
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.NotifyIcon notifyIcon1;
+        private System.Windows.Forms.Button button2;
     }
 }
 

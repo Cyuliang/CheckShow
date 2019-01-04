@@ -145,6 +145,7 @@ namespace CheckShow
             _BigShow.WindowState = FormWindowState.Maximized;
             _BigShow.ShowDialog();
             BigShowPictureFunc -= _BigShow.ShowPicture;
+            _BigShow.Dispose();
         }
 
         private void Picture_FormClosing(object sender, FormClosingEventArgs e)

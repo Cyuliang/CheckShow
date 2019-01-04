@@ -1,6 +1,7 @@
 ﻿using System.Windows.Forms;
 using System;
 using System.Drawing;
+using System.Data;
 
 namespace CheckShow
 {
@@ -280,6 +281,33 @@ namespace CheckShow
             _Picture.ShowDialog();
             ShowPicture -= _Picture.ShowPicture;
             _Picture.Dispose();
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            DialogResult result = MessageBox.Show("确认要关闭程序吗?","提示",MessageBoxButtons.YesNo,MessageBoxIcon.Question); 
+            if(result==DialogResult.No)
+            {
+                e.Cancel = true;
+                this.WindowState = FormWindowState.Minimized;
+                this.notifyIcon1.Visible = true;
+            }
+        }
+
+        private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            //this.Visible = true;//这个也可以            
+            //this.Show();
+            this.WindowState = FormWindowState.Normal;
+            this.notifyIcon1.Visible = false; 
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+            DataTable dt = (DataTable)dataGridView1.DataSource;
+            dt.Rows.Clear();
+            dataGridView1.DataSource = dt;
         }
     }
 }
