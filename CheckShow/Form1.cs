@@ -2,6 +2,7 @@
 using System;
 using System.Drawing;
 using System.Data;
+using System.IO;
 
 namespace CheckShow
 {
@@ -16,7 +17,7 @@ namespace CheckShow
         private delegate void UpdateUIUVSS(bool status);
 
         private System.Threading.Timer _TimerDateStatus;
-        private DateTime LpnDt;
+        private DateTime LpnDt = DateTime.Now;
         //private bool ContainerStatus = false;//判断箱号是否处理完成
 
         private Action<string[]> ShowPicture;
@@ -87,7 +88,12 @@ namespace CheckShow
             {
                 if (System.IO.File.Exists(obj))
                 {
-                    Image.FromFile(obj).Save(CheDiPath, System.Drawing.Imaging.ImageFormat.Jpeg);
+                    //Image.FromFile(obj).Save(CheDiPath, System.Drawing.Imaging.ImageFormat.Jpeg);
+                    FileStream fs = new FileStream(obj, FileMode.Open, FileAccess.Read);
+                    Image image= Image.FromStream(fs);
+                    image.Save(CheDiPath, System.Drawing.Imaging.ImageFormat.Jpeg);
+                    fs.Close();
+                    image.Dispose();
                 }
                 if (_DataBase.InsertData(CheDiPath) == 1)
                 {

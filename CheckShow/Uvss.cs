@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Net;
 using System.Net.Sockets;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace CheckShow
 {
@@ -59,8 +57,8 @@ namespace CheckShow
             }
             else
             {
-                _TimerLink = new System.Threading.Timer(AutoLinkCallBack, null, TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(5));
-                _TimerTestLink = new System.Threading.Timer(TestLinCallBack, null,-1,-1);
+                _TimerLink = new Timer(AutoLinkCallBack, null, TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(5));
+                _TimerTestLink = new Timer(TestLinCallBack, null,-1,-1);
             }
             CheckInfoCallback = UVSSCheckInfoCallBack;
             MessageCallback = UVSSMessageCallback;
