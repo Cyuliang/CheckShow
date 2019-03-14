@@ -8,6 +8,7 @@ namespace CheckShow
 {
     public partial class Form1 : Form
     {
+        private Picture _Picture = new Picture();
         private DataBase _DataBase = new DataBase();
         private Container _Container = new Container();
         private Uvss _Uvss = new Uvss();
@@ -21,15 +22,23 @@ namespace CheckShow
         //private bool ContainerStatus = false;//判断箱号是否处理完成
 
         private Action<string[]> ShowPicture;
+        //清除图片委托
+        private delegate void ClearnPictureDelegate();
+        private ClearnPictureDelegate clearnPicture;
 
         private string Container_ImagePath = Properties.Settings.Default.Container_ImagePath;
         private string Container_Lane = Properties.Settings.Default.Container_Lane;
         private string Container_Plate_Name = Properties.Settings.Default.Container_Plate_Name;
         private string Container_ChediPath = Properties.Settings.Default.Container_ChediPath;
 
+
+        private TabPage PictureTable = new TabPage("图像");
         public Form1()
         {
             InitializeComponent();
+
+            ShowPicture += _Picture.ShowPicture;
+            clearnPicture += _Picture.PictureClear;
 
             _Container.LpnResult += InsertLpn;//车牌结果事件
             _Container.GetStatusAction += ContainerStatus;//链接状态
@@ -49,6 +58,23 @@ namespace CheckShow
             radioTimeButton.Checked = true;
 
             _TimerDateStatus= new System.Threading.Timer(DataCallBack, null, TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(0));
+
+            //添加tabPage页面
+            SetTablePage( _Picture);
+        }
+
+        /// <summary>
+        /// 添加窗口到tabPage
+        /// </summary>
+        /// <param name="form"></param>
+        private void SetTablePage(Form form)
+        {
+            form.TopLevel = false;
+            form.Anchor = AnchorStyles.Top | AnchorStyles.Left;
+            form.FormBorderStyle = FormBorderStyle.None;
+            form.Dock = DockStyle.Fill;
+            form.Show();
+            tabPage1.Controls.Add(form);
         }
 
         /// <summary>
@@ -86,7 +112,7 @@ namespace CheckShow
 
             try
             {
-                if (System.IO.File.Exists(obj))
+                if (File.Exists(obj))
                 {
                     //Image.FromFile(obj).Save(CheDiPath, System.Drawing.Imaging.ImageFormat.Jpeg);
                     FileStream fs = new FileStream(obj, FileMode.Open, FileAccess.Read);
@@ -98,6 +124,11 @@ namespace CheckShow
                 if (_DataBase.InsertData(CheDiPath) == 1)
                 {
                     Lognet.Log.Info("插入车底数据成功");
+
+                    //触发实时显示车底图片
+                    string[] rows = { null, null, null, null, null, null, null, null, CheDiPath };
+                    //ShowPicture += _Picture.ShowPicture;
+                    ShowPicture?.Invoke(rows);
                 }
             }
             catch (Exception)
@@ -147,12 +178,20 @@ namespace CheckShow
         /// <param name="arg2"></param>
         private void InsertLpn(DateTime arg1, string arg2)
         {
-            UpdateUi(string.Format("Date：{0} 车辆通过：{1}", arg1.ToString("yyyy-MM-DD HH:mm:ss"), arg2));
+            UpdateUi(string.Format("Date：{0} 车辆通过：{1}", arg1.ToString("yyyy-MM-dd HH:mm:ss"), arg2));
             _TimerDateStatus.Change(TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(0));
 
-            if(_DataBase.InsertData(arg1, ReturnImagePath(arg1, arg2))==1)
+            string[] ImagePath = ReturnImagePath(arg1, arg2);
+
+            if (_DataBase.InsertData(arg1, ImagePath) == 1)
             {
-                Lognet.Log.Info("插入集装箱数据成功");
+                Lognet.Log.Info("插入车牌数据成功");
+
+                //触发实时显示箱体图片
+                string[] rows = { null, null, null, ImagePath[1], ImagePath[3], ImagePath[2], ImagePath[4], ImagePath[5], ImagePath[6] };
+                //ShowPicture += _Picture.ShowPicture;
+                clearnPicture?.Invoke();
+                ShowPicture?.Invoke(rows);
             }
 
             LpnDt = arg1;//车底图片保位置
@@ -209,12 +248,12 @@ namespace CheckShow
             {
                 str[i] = dataGridView1.Rows[row].Cells[i].Value.ToString();
             }
-            Picture _Picture = new Picture();
-            ShowPicture += _Picture.ShowPicture;
-            ShowPicture?.Invoke(str);
-            _Picture.ShowDialog();
-            ShowPicture -= _Picture.ShowPicture;            
-            _Picture.Dispose();
+            //Picture _Picture = new Picture();
+            //ShowPicture += _Picture.ShowPicture;
+            //ShowPicture?.Invoke(str);
+            //_Picture.ShowDialog();
+            //ShowPicture -= _Picture.ShowPicture;            
+            //_Picture.Dispose();
         }
 
         /// <summary>
@@ -228,7 +267,9 @@ namespace CheckShow
         {
             string[] Message = new string[7] {Plate,null,null,null,null,null,null};
             string Path = string.Format(@"{0}\{1}\{2}\{3}",Container_ImagePath,dt.Year.ToString(),dt.Month.ToString().PadLeft(2,'0'),dt.Day.ToString().PadLeft(2,'0'));
-            for(int i=1;i<4;i++)
+
+            //前相机，右相机，右相机
+            for (int i=1;i<4;i++)
             {
                 Message[i] = string.Format(@"{0}\{1}{2}{3}.jpg", Path, dt.ToString("yyyyMMddHHmmss"), Container_Lane, i);
                 //if (!System.IO.File.Exists(Message[i]))
@@ -258,18 +299,23 @@ namespace CheckShow
             return Message;
         }
 
-        private void Button1_Click(object sender, EventArgs e)
+        /// <summary>
+        /// 显示日志
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void LogButton_Click(object sender, EventArgs e)
         {
             LogForm _logForm = new LogForm();
             _logForm.Show();
         }
 
         /// <summary>
-        /// 显示图片
+        /// 显示图片按钮
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void button1_Click_1(object sender, EventArgs e)
+        private void ShowPictureButton_Click(object sender, EventArgs e)
         {
             if(dataGridView1.Rows.Count==0)
             {
@@ -281,14 +327,19 @@ namespace CheckShow
             {
                 str[i] = dataGridView1.Rows[row].Cells[i].Value.ToString();
             }
-            Picture _Picture = new Picture();
-            ShowPicture += _Picture.ShowPicture;
-            ShowPicture?.Invoke(str);
-            _Picture.ShowDialog();
-            ShowPicture -= _Picture.ShowPicture;
-            _Picture.Dispose();
+            //Picture _Picture = new Picture();
+            //ShowPicture += _Picture.ShowPicture;
+            //ShowPicture?.Invoke(str);
+            //_Picture.ShowDialog();
+            //ShowPicture -= _Picture.ShowPicture;
+            //_Picture.Dispose();
         }
 
+        /// <summary>
+        /// 关闭窗口
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             DialogResult result = MessageBox.Show("确认要关闭程序吗?","提示",MessageBoxButtons.YesNo,MessageBoxIcon.Question); 
@@ -300,6 +351,11 @@ namespace CheckShow
             }
         }
 
+        /// <summary>
+        /// 双击任务栏图标显示窗体
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             //this.Visible = true;//这个也可以            
@@ -308,12 +364,24 @@ namespace CheckShow
             this.notifyIcon1.Visible = false; 
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        /// <summary>
+        /// 清除数据表数据
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ClearDataButton_Click(object sender, EventArgs e)
         {
+            try
+            {
+                DataTable dt = (DataTable)dataGridView1.DataSource;
+                dt.Rows.Clear();
+                dataGridView1.DataSource = dt;
+            }
+            catch (Exception)
+            {
+                ;//数据表不存在
+            }
 
-            DataTable dt = (DataTable)dataGridView1.DataSource;
-            dt.Rows.Clear();
-            dataGridView1.DataSource = dt;
         }
     }
 }

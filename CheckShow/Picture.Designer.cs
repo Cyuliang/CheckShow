@@ -268,7 +268,6 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Picture";
             this.Text = "Picture";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Picture_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Picture_FormClosed);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();

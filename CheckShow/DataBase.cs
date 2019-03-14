@@ -39,7 +39,7 @@ namespace CheckShow
         }
 
         /// <summary>
-        /// 插入车底图片
+        /// 插入车底图片路径
         /// </summary>
         /// <param name="UVSSPath"></param>
         /// <returns></returns>
@@ -67,6 +67,12 @@ namespace CheckShow
             return result;
         }
 
+        /// <summary>
+        /// 插入数据
+        /// </summary>
+        /// <param name="dt"></param>
+        /// <param name="Message"></param>
+        /// <returns></returns>
         public int InsertData(DateTime dt,string[] Message)
         {
             SQLiteParameter[] parameters = {

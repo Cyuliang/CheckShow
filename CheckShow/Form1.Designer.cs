@@ -53,13 +53,15 @@
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel6 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel5 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabel7 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel4 = new System.Windows.Forms.ToolStripStatusLabel();
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.Logbutton = new System.Windows.Forms.Button();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.radioButton1 = new System.Windows.Forms.RadioButton();
+            this.ClearDataButton = new System.Windows.Forms.Button();
+            this.ShowPictureButton = new System.Windows.Forms.Button();
+            this.LogButton = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.radioPlateButton = new System.Windows.Forms.RadioButton();
             this.radioTimeButton = new System.Windows.Forms.RadioButton();
@@ -67,9 +69,11 @@
             this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
-            this.button2 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator1)).BeginInit();
             this.bindingNavigator1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataSet1)).BeginInit();
@@ -77,6 +81,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.tabControl1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -104,7 +110,7 @@
             this.bindingNavigator1.MovePreviousItem = this.bindingNavigatorMovePreviousItem;
             this.bindingNavigator1.Name = "bindingNavigator1";
             this.bindingNavigator1.PositionItem = this.bindingNavigatorPositionItem;
-            this.bindingNavigator1.Size = new System.Drawing.Size(800, 25);
+            this.bindingNavigator1.Size = new System.Drawing.Size(864, 25);
             this.bindingNavigator1.TabIndex = 0;
             this.bindingNavigator1.Text = "bindingNavigator1";
             // 
@@ -207,11 +213,10 @@
             this.toolStripStatusLabel3,
             this.toolStripStatusLabel6,
             this.toolStripStatusLabel5,
-            this.toolStripStatusLabel7,
             this.toolStripStatusLabel4});
             this.statusStrip1.Location = new System.Drawing.Point(0, 428);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(800, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(864, 22);
             this.statusStrip1.TabIndex = 2;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -247,16 +252,10 @@
             this.toolStripStatusLabel5.Size = new System.Drawing.Size(56, 17);
             this.toolStripStatusLabel5.Text = "车底系统";
             // 
-            // toolStripStatusLabel7
-            // 
-            this.toolStripStatusLabel7.Name = "toolStripStatusLabel7";
-            this.toolStripStatusLabel7.Size = new System.Drawing.Size(11, 17);
-            this.toolStripStatusLabel7.Text = "|";
-            // 
             // toolStripStatusLabel4
             // 
             this.toolStripStatusLabel4.Name = "toolStripStatusLabel4";
-            this.toolStripStatusLabel4.Size = new System.Drawing.Size(615, 17);
+            this.toolStripStatusLabel4.Size = new System.Drawing.Size(679, 17);
             this.toolStripStatusLabel4.Spring = true;
             // 
             // tableLayoutPanel1
@@ -264,21 +263,23 @@
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.Controls.Add(this.groupBox1, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.dataGridView1, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.tabControl1, 0, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 25);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(800, 403);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(864, 403);
             this.tableLayoutPanel1.TabIndex = 3;
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.button2);
-            this.groupBox1.Controls.Add(this.button1);
-            this.groupBox1.Controls.Add(this.Logbutton);
+            this.groupBox1.Controls.Add(this.textBox2);
+            this.groupBox1.Controls.Add(this.radioButton1);
+            this.groupBox1.Controls.Add(this.ClearDataButton);
+            this.groupBox1.Controls.Add(this.ShowPictureButton);
+            this.groupBox1.Controls.Add(this.LogButton);
             this.groupBox1.Controls.Add(this.textBox1);
             this.groupBox1.Controls.Add(this.radioPlateButton);
             this.groupBox1.Controls.Add(this.radioTimeButton);
@@ -289,47 +290,75 @@
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(3, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(794, 94);
+            this.groupBox1.Size = new System.Drawing.Size(858, 94);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "查询条件";
             // 
-            // button1
+            // textBox2
             // 
-            this.button1.Location = new System.Drawing.Point(480, 54);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 9;
-            this.button1.Text = "显示图片";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            this.textBox2.Location = new System.Drawing.Point(352, 57);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(160, 21);
+            this.textBox2.TabIndex = 12;
             // 
-            // Logbutton
+            // radioButton1
             // 
-            this.Logbutton.Location = new System.Drawing.Point(399, 55);
-            this.Logbutton.Name = "Logbutton";
-            this.Logbutton.Size = new System.Drawing.Size(75, 23);
-            this.Logbutton.TabIndex = 8;
-            this.Logbutton.Text = "日志";
-            this.Logbutton.UseVisualStyleBackColor = true;
-            this.Logbutton.Click += new System.EventHandler(this.Button1_Click);
+            this.radioButton1.AutoSize = true;
+            this.radioButton1.Location = new System.Drawing.Point(275, 59);
+            this.radioButton1.Name = "radioButton1";
+            this.radioButton1.Size = new System.Drawing.Size(71, 16);
+            this.radioButton1.TabIndex = 11;
+            this.radioButton1.TabStop = true;
+            this.radioButton1.Text = "集装箱：";
+            this.radioButton1.UseVisualStyleBackColor = true;
+            // 
+            // ClearDataButton
+            // 
+            this.ClearDataButton.Location = new System.Drawing.Point(608, 56);
+            this.ClearDataButton.Name = "ClearDataButton";
+            this.ClearDataButton.Size = new System.Drawing.Size(75, 23);
+            this.ClearDataButton.TabIndex = 10;
+            this.ClearDataButton.Text = "清除数据表";
+            this.ClearDataButton.UseVisualStyleBackColor = true;
+            this.ClearDataButton.Click += new System.EventHandler(this.ClearDataButton_Click);
+            // 
+            // ShowPictureButton
+            // 
+            this.ShowPictureButton.Location = new System.Drawing.Point(689, 18);
+            this.ShowPictureButton.Name = "ShowPictureButton";
+            this.ShowPictureButton.Size = new System.Drawing.Size(75, 23);
+            this.ShowPictureButton.TabIndex = 9;
+            this.ShowPictureButton.Text = "显示图片";
+            this.ShowPictureButton.UseVisualStyleBackColor = true;
+            this.ShowPictureButton.Click += new System.EventHandler(this.ShowPictureButton_Click);
+            // 
+            // LogButton
+            // 
+            this.LogButton.Location = new System.Drawing.Point(608, 19);
+            this.LogButton.Name = "LogButton";
+            this.LogButton.Size = new System.Drawing.Size(75, 23);
+            this.LogButton.TabIndex = 8;
+            this.LogButton.Text = "日志";
+            this.LogButton.UseVisualStyleBackColor = true;
+            this.LogButton.Click += new System.EventHandler(this.LogButton_Click);
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(71, 56);
+            this.textBox1.Location = new System.Drawing.Point(71, 57);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(200, 21);
+            this.textBox1.Size = new System.Drawing.Size(179, 21);
             this.textBox1.TabIndex = 7;
             // 
             // radioPlateButton
             // 
             this.radioPlateButton.AutoSize = true;
-            this.radioPlateButton.Location = new System.Drawing.Point(7, 58);
+            this.radioPlateButton.Location = new System.Drawing.Point(7, 59);
             this.radioPlateButton.Name = "radioPlateButton";
-            this.radioPlateButton.Size = new System.Drawing.Size(53, 16);
+            this.radioPlateButton.Size = new System.Drawing.Size(59, 16);
             this.radioPlateButton.TabIndex = 5;
             this.radioPlateButton.TabStop = true;
-            this.radioPlateButton.Text = "车牌:";
+            this.radioPlateButton.Text = "车牌：";
             this.radioPlateButton.UseVisualStyleBackColor = true;
             // 
             // radioTimeButton
@@ -345,7 +374,7 @@
             // 
             // FindButton
             // 
-            this.FindButton.Location = new System.Drawing.Point(318, 56);
+            this.FindButton.Location = new System.Drawing.Point(527, 20);
             this.FindButton.Name = "FindButton";
             this.FindButton.Size = new System.Drawing.Size(75, 23);
             this.FindButton.TabIndex = 3;
@@ -355,7 +384,7 @@
             // 
             // dateTimePicker2
             // 
-            this.dateTimePicker2.Location = new System.Drawing.Point(318, 20);
+            this.dateTimePicker2.Location = new System.Drawing.Point(275, 20);
             this.dateTimePicker2.Name = "dateTimePicker2";
             this.dateTimePicker2.Size = new System.Drawing.Size(237, 21);
             this.dateTimePicker2.TabIndex = 2;
@@ -363,7 +392,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(289, 26);
+            this.label1.Location = new System.Drawing.Point(256, 26);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(11, 12);
             this.label1.TabIndex = 1;
@@ -373,8 +402,40 @@
             // 
             this.dateTimePicker1.Location = new System.Drawing.Point(71, 20);
             this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(200, 21);
+            this.dateTimePicker1.Size = new System.Drawing.Size(179, 21);
             this.dateTimePicker1.TabIndex = 0;
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl1.Location = new System.Drawing.Point(3, 103);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(858, 297);
+            this.tabControl1.TabIndex = 1;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(850, 271);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "图像";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.dataGridView1);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(850, 271);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "数据";
+            this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // dataGridView1
             // 
@@ -386,15 +447,14 @@
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.GridColor = System.Drawing.SystemColors.Desktop;
-            this.dataGridView1.Location = new System.Drawing.Point(3, 103);
+            this.dataGridView1.Location = new System.Drawing.Point(3, 3);
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowTemplate.Height = 23;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(794, 297);
-            this.dataGridView1.TabIndex = 1;
-            this.dataGridView1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView1_CellDoubleClick);
+            this.dataGridView1.Size = new System.Drawing.Size(844, 265);
+            this.dataGridView1.TabIndex = 3;
             // 
             // notifyIcon1
             // 
@@ -403,28 +463,17 @@
             this.notifyIcon1.Visible = true;
             this.notifyIcon1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseDoubleClick);
             // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(575, 20);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 10;
-            this.button2.Text = "清除数据表";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Visible = false;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(864, 450);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.bindingNavigator1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
-            this.Text = "车体拍照数据查询";
+            this.Text = "车体数据";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator1)).EndInit();
             this.bindingNavigator1.ResumeLayout(false);
@@ -436,6 +485,8 @@
             this.tableLayoutPanel1.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.tabControl1.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -465,10 +516,9 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel4;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel5;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel6;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel7;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button Logbutton;
+        private System.Windows.Forms.Button LogButton;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.RadioButton radioPlateButton;
         private System.Windows.Forms.RadioButton radioTimeButton;
@@ -476,10 +526,15 @@
         private System.Windows.Forms.DateTimePicker dateTimePicker2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
-        private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button ShowPictureButton;
         private System.Windows.Forms.NotifyIcon notifyIcon1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button ClearDataButton;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.RadioButton radioButton1;
     }
 }
 

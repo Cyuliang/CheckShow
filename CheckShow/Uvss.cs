@@ -112,27 +112,35 @@ namespace CheckShow
         /// <param name="state"></param>
         private void AutoLinkCallBack(object state)
         {
-            int ret = SafeNativeMethods.UVSSConnect(UVSSIp, UVSSPort);
-            if(ret>0)
+            try
             {
-                _TimerLink?.Change(-1, -1);
+                int ret = SafeNativeMethods.UVSSConnect(UVSSIp, UVSSPort);
+                if (ret > 0)
+                {
+                    _TimerLink?.Change(-1, -1);
 
-                ip = IPAddress.Parse(UVSSIp);
-                client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                client.Connect(new IPEndPoint(ip, UVSSPort));//链接测试socket
+                    ip = IPAddress.Parse(UVSSIp);
+                    client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                    client.Connect(new IPEndPoint(ip, UVSSPort));//链接测试socket
 
-                _TimerTestLink?.Change(TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(0));
-                LinkStatusAction?.Invoke(true);
+                    _TimerTestLink?.Change(TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(0));
+                    LinkStatusAction?.Invoke(true);
 
-                Lognet.Log.Warn("车底系统链接成功");
+                    Lognet.Log.Warn("车底系统链接成功");
+                }
+                else
+                {
+                    SafeNativeMethods.UVSSDisconnect(ret);
+                    _TimerLink?.Change(TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(5));
+                    //_TimerTestLink.Change(-1, -1);
+                    //LinkStatusAction?.Invoke(false);
+                }
             }
-            else
+            catch (Exception)
             {
-                SafeNativeMethods.UVSSDisconnect(ret);
-                _TimerLink?.Change(TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(5));
-                //_TimerTestLink.Change(-1, -1);
-                //LinkStatusAction?.Invoke(false);
+                GC.Collect();
             }
+           
         }
 
         /// <summary>
