@@ -68,6 +68,35 @@ namespace CheckShow
         }
 
         /// <summary>
+        /// 插入集装箱号码，最后一条记录
+        /// </summary>
+        /// <param name="Container"></param>
+        /// <returns></returns>
+        public int InsertContainer(string Container)
+        {
+            SQLiteParameter[] parameters =
+            {
+                new SQLiteParameter("@Container",DbType.String,10)
+            };
+            int result = -1;
+            try
+            {
+                //parameters[0].Value = dt;
+                parameters[0].Value = Container;
+                //command.CommandText = @"UPDATE Picture SET P_6=@UVSSPath WHERE P_6='nul' order by ID desc limit 1";
+                command.CommandText = "update Picture set Container=@Container where ID =(select ID from Picture order by ID desc limit 1) and Container='nul'";
+                command.Parameters.AddRange(parameters);
+                result = command.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                Lognet.Log.Error("插入数据错误", ex);
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// 插入数据
         /// </summary>
         /// <param name="dt"></param>
@@ -78,6 +107,7 @@ namespace CheckShow
             SQLiteParameter[] parameters = {
                     new SQLiteParameter("@Date",DbType.DateTime),
                     new SQLiteParameter("@Plate", DbType.String,10),
+                    //new SQLiteParameter("@Container",DbType.String,10),
                     new SQLiteParameter("@P_1",DbType.String,10),
                     new SQLiteParameter("@P_2",DbType.String,10),
                     new SQLiteParameter("@P_3",DbType.String,10),
@@ -115,29 +145,59 @@ namespace CheckShow
         /// </summary>
         /// <param name="parameter"></param>
         /// <returns></returns>
-        public DataSet Select(DateTime dts,DateTime dte,string Plate)
+        public DataSet Select(DateTime dts,DateTime dte,string Plate,string Container,bool onlyContainer)
         {
             DataSet ds = new DataSet();
             string cmdText = string.Empty;
             try
             {
-
                 SQLiteParameter[] parameter = {
                     new SQLiteParameter("@DateS",DbType.DateTime),
                     new SQLiteParameter("@DateE",DbType.DateTime),
-                    new SQLiteParameter("@Plate",DbType.String,10)
+                    new SQLiteParameter("@Plate",DbType.String,10),
+                    new SQLiteParameter("@Container",DbType.String,10)
                 };
                 parameter[0].Value = dts;
                 parameter[1].Value = dte;
                 parameter[2].Value = Plate;
+                parameter[3].Value = Container;
                 
                 if(string.IsNullOrEmpty(Plate))
                 {
-                    cmdText = "SELECT * FROM Picture WHERE Date BETWEEN @DateS AND @DateE";
+                    if(string.IsNullOrEmpty(Container))
+                    {
+                        if(onlyContainer)
+                        {
+                            cmdText = "SELECT * FROM Picture WHERE Date BETWEEN @DateS AND @DateE and Container is not 'nul'";
+                        }
+                        else
+                        {
+                            cmdText = "SELECT * FROM Picture WHERE Date BETWEEN @DateS AND @DateE";
+                        }
+                    }
+                    else
+                    {
+                        if(onlyContainer)
+                        {
+                            cmdText = "SELECT * FROM Picture WHERE  Container=@Container and Container is not 'nul'";
+                        }
+                        else
+                        {
+                            cmdText = "SELECT * FROM Picture WHERE  Container=@Container";
+
+                        }
+                    }
                 }
                 else
                 {
-                    cmdText = "SELECT * FROM Picture WHERE  Plate=@Plate";
+                    if(onlyContainer)
+                    {
+                        cmdText = "SELECT * FROM Picture WHERE  Plate=@Plate and Container is not 'nul'";
+                    }
+                    else
+                    {
+                        cmdText = "SELECT * FROM Picture WHERE  Plate=@Plate";
+                    }
                 }
 
                 command.CommandText = cmdText;

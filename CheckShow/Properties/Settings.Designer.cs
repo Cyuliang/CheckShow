@@ -118,5 +118,17 @@ namespace CheckShow.Properties {
                 this["UVSSPort"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("123")]
+        public string Exit_Password {
+            get {
+                return ((string)(this["Exit_Password"]));
+            }
+            set {
+                this["Exit_Password"] = value;
+            }
+        }
     }
 }

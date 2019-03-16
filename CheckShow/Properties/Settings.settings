@@ -26,5 +26,8 @@
     <Setting Name="UVSSPort" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">20145</Value>
     </Setting>
+    <Setting Name="Exit_Password" Type="System.String" Scope="User">
+      <Value Profile="(Default)">123</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

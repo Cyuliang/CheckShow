@@ -112,7 +112,14 @@
     <Compile Include="Container.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
+    <Compile Include="Container_socket.cs" />
     <Compile Include="DataBase.cs" />
+    <Compile Include="ExitPasswordForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ExitPasswordForm.Designer.cs">
+      <DependentUpon>ExitPasswordForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -146,6 +153,9 @@
     <Compile Include="Uvss.cs" />
     <EmbeddedResource Include="BigShow.resx">
       <DependentUpon>BigShow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ExitPasswordForm.resx">
+      <DependentUpon>ExitPasswordForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>

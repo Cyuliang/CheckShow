@@ -62,35 +62,35 @@ namespace CheckShow
             try
             {
                 this.Text = str[2]+"-（单击放大图片）";
-                if (str[3] != null && File.Exists(str[3]))
-                {
-                    pictureBox2.Image = ImageFromStream(str[3]);
-                }
                 if (str[4] != null && File.Exists(str[4]))
                 {
-                    pictureBox5.Image = ImageFromStream(str[4]);
+                    pictureBox2.Image = ImageFromStream(str[4]);
                 }
                 if (str[5] != null && File.Exists(str[5]))
                 {
-                    pictureBox6.Image = ImageFromStream(str[5]);
+                    pictureBox5.Image = ImageFromStream(str[5]);
                 }
                 if (str[6] != null && File.Exists(str[6]))
                 {
-                    pictureBox3.Image = ImageFromStream(str[6]);
+                    pictureBox6.Image = ImageFromStream(str[6]);
                 }
                 if (str[7] != null && File.Exists(str[7]))
                 {
-                    pictureBox4.Image = ImageFromStream(str[7]);
+                    pictureBox3.Image = ImageFromStream(str[7]);
                 }
-
                 if (str[8] != null && File.Exists(str[8]))
                 {
-                    pictureBox1.Image = ImageFromStream(str[8]);
+                    pictureBox4.Image = ImageFromStream(str[8]);
+                }
+
+                if (str[9] != null && File.Exists(str[9]))
+                {
+                    pictureBox1.Image = ImageFromStream(str[9]);
                 }
             }
             catch (Exception)
             {
-                MessageBox.Show("image error");
+                //MessageBox.Show("image error");
             }
         }
 

@@ -12,16 +12,20 @@ namespace CheckShow
         private DataBase _DataBase = new DataBase();
         private Container _Container = new Container();
         private Uvss _Uvss = new Uvss();
+        private Container_socket _Container_socket = new Container_socket();
 
         private delegate void UpdateUiBInvok(object state);
         private delegate void UpdateUIMessageInvok(string Message);
         private delegate void UpdateUIUVSS(bool status);
+        private delegate void UpdateContianer(bool status);
 
         private System.Threading.Timer _TimerDateStatus;
         private DateTime LpnDt = DateTime.Now;
         //private bool ContainerStatus = false;//判断箱号是否处理完成
 
-        private Action<string[]> ShowPicture;
+        private Action<string[]> FromShowPicture;//主窗口显示图片
+        private Action<string[]> ShowPicture;//弹窗显示图片
+
         //清除图片委托
         private delegate void ClearnPictureDelegate();
         private ClearnPictureDelegate clearnPicture;
@@ -37,7 +41,12 @@ namespace CheckShow
         {
             InitializeComponent();
 
-            ShowPicture += _Picture.ShowPicture;
+
+            _Container_socket.LinkStatus += ContainerSocketStatus;//箱号结果链接状态
+            _Container_socket.MessageAction += UpdateUi;
+            _Container_socket.Comresult += Comresult1;
+
+            FromShowPicture += _Picture.ShowPicture;
             clearnPicture += _Picture.PictureClear;
 
             _Container.LpnResult += InsertLpn;//车牌结果事件
@@ -64,6 +73,22 @@ namespace CheckShow
         }
 
         /// <summary>
+        /// 箱号结果
+        /// </summary>
+        /// <param name="obj"></param>
+        private void Comresult1(string obj)
+        {
+            if(!string.IsNullOrEmpty(obj))
+            {
+                if (_DataBase.InsertContainer(obj) == 1)
+                {
+                    Lognet.Log.Info("插入集装箱数据成功");
+                }
+            }
+            Lognet.Log.Debug("没有识别到集装箱号码");
+        }
+
+        /// <summary>
         /// 添加窗口到tabPage
         /// </summary>
         /// <param name="form"></param>
@@ -75,6 +100,30 @@ namespace CheckShow
             form.Dock = DockStyle.Fill;
             form.Show();
             tabPage1.Controls.Add(form);
+        }
+
+        /// <summary>
+        /// 箱号数据结果链接状态
+        /// </summary>
+        /// <param name="obj"></param>
+        private void ContainerSocketStatus(bool obj)
+        {
+            if (statusStrip1.InvokeRequired)
+            {
+                statusStrip1.Invoke(new UpdateContianer(ContainerSocketStatus), new object[] { obj });
+            }
+            else
+            {
+                if (obj)
+                {
+                    toolStripStatusLabel8.BackColor = Color.DarkGreen;
+                    _TimerDateStatus.Change(TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(0));
+                }
+                else
+                {
+                    toolStripStatusLabel8.BackColor = Color.DarkRed;
+                }
+            }
         }
 
         /// <summary>
@@ -126,9 +175,9 @@ namespace CheckShow
                     Lognet.Log.Info("插入车底数据成功");
 
                     //触发实时显示车底图片
-                    string[] rows = { null, null, null, null, null, null, null, null, CheDiPath };
+                    string[] rows = { null, null, null, null, null, null, null, null,null, CheDiPath };
                     //ShowPicture += _Picture.ShowPicture;
-                    ShowPicture?.Invoke(rows);
+                    FromShowPicture?.Invoke(rows);
                 }
             }
             catch (Exception)
@@ -160,14 +209,21 @@ namespace CheckShow
         /// <param name="obj"></param>
         private void ContainerStatus(bool obj)
         {
-            if(obj)
+            if (statusStrip1.InvokeRequired)
             {
-                toolStripStatusLabel3.BackColor=Color.DarkGreen;
-                _TimerDateStatus.Change(TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(0));
+                statusStrip1.Invoke(new UpdateContianer(ContainerStatus), new object[] { obj });
             }
             else
             {
-                toolStripStatusLabel3.BackColor = Color.DarkRed;
+                if (obj)
+                {
+                    toolStripStatusLabel3.BackColor = Color.DarkGreen;
+                    _TimerDateStatus.Change(TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(0));
+                }
+                else
+                {
+                    toolStripStatusLabel3.BackColor = Color.DarkRed;
+                }
             }
         }
 
@@ -188,10 +244,10 @@ namespace CheckShow
                 Lognet.Log.Info("插入车牌数据成功");
 
                 //触发实时显示箱体图片
-                string[] rows = { null, null, null, ImagePath[1], ImagePath[3], ImagePath[2], ImagePath[4], ImagePath[5], ImagePath[6] };
+                string[] rows = { null, null, null, null,ImagePath[1], ImagePath[3], ImagePath[2], ImagePath[4], ImagePath[5], ImagePath[6] };
                 //ShowPicture += _Picture.ShowPicture;
                 clearnPicture?.Invoke();
-                ShowPicture?.Invoke(rows);
+                FromShowPicture?.Invoke(rows);
             }
 
             LpnDt = arg1;//车底图片保位置
@@ -220,15 +276,31 @@ namespace CheckShow
         /// <param name="e"></param>
         private void FindButton_Click(object sender, EventArgs e)
         {
+            bool onlyContainer = false;
             string Plate = string.Empty;
+            string Container = string.Empty;
+
+            //只查询集装箱
+            if (checkBox1.Checked)
+            {
+                onlyContainer = true;
+            }
+
             if(radioPlateButton.Checked)
             {
                 Plate = textBox1.Text;
             }
-            bindingSource1.DataSource = _DataBase.Select(dateTimePicker1.Value,dateTimePicker2.Value, Plate).Tables["Picture"];
+            if(radioContainerButton.Checked)
+            {
+                Container = textBox2.Text;
+            }
+            bindingSource1.DataSource = _DataBase.Select(dateTimePicker1.Value,dateTimePicker2.Value, Plate,Container, onlyContainer).Tables["Picture"];
             bindingNavigator1.BindingSource = bindingSource1;
             dataGridView1.DataSource = bindingSource1;
             dataGridView1.Columns[1].DefaultCellStyle.Format = "yyyy-MM-dd HH:mm:ss";
+
+            //切换tabpage
+            tabControl1.SelectedIndex = 1;
         }
 
         /// <summary>
@@ -248,12 +320,12 @@ namespace CheckShow
             {
                 str[i] = dataGridView1.Rows[row].Cells[i].Value.ToString();
             }
-            //Picture _Picture = new Picture();
-            //ShowPicture += _Picture.ShowPicture;
-            //ShowPicture?.Invoke(str);
-            //_Picture.ShowDialog();
-            //ShowPicture -= _Picture.ShowPicture;            
-            //_Picture.Dispose();
+            Picture _Picture = new Picture();
+            ShowPicture += _Picture.ShowPicture;
+            ShowPicture?.Invoke(str);
+            _Picture.ShowDialog();
+            ShowPicture -= _Picture.ShowPicture;
+            _Picture.Dispose();
         }
 
         /// <summary>
@@ -327,12 +399,12 @@ namespace CheckShow
             {
                 str[i] = dataGridView1.Rows[row].Cells[i].Value.ToString();
             }
-            //Picture _Picture = new Picture();
-            //ShowPicture += _Picture.ShowPicture;
-            //ShowPicture?.Invoke(str);
-            //_Picture.ShowDialog();
-            //ShowPicture -= _Picture.ShowPicture;
-            //_Picture.Dispose();
+            Picture _Picture = new Picture();
+            ShowPicture += _Picture.ShowPicture;
+            ShowPicture?.Invoke(str);
+            _Picture.ShowDialog();
+            ShowPicture -= _Picture.ShowPicture;
+            _Picture.Dispose();
         }
 
         /// <summary>
@@ -342,13 +414,43 @@ namespace CheckShow
         /// <param name="e"></param>
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            DialogResult result = MessageBox.Show("确认要关闭程序吗?","提示",MessageBoxButtons.YesNo,MessageBoxIcon.Question); 
-            if(result==DialogResult.No)
+            //    DialogResult result = MessageBox.Show("确认要关闭程序吗?","提示",MessageBoxButtons.YesNo,MessageBoxIcon.Question); 
+            //    if(result==DialogResult.No)
+            //    {
+            //        e.Cancel = true;
+            //        this.WindowState = FormWindowState.Minimized;
+            //        this.notifyIcon1.Visible = true;
+            //    }
+            //}
+            ExitPasswordForm _PasswordForm = new ExitPasswordForm();
+            _PasswordForm.PasswordAction += Exit_Password;
+            _PasswordForm.ShowDialog();
+            if (EXIT)
+            {
+                e.Cancel = false;
+            }
+            else
             {
                 e.Cancel = true;
-                this.WindowState = FormWindowState.Minimized;
-                this.notifyIcon1.Visible = true;
             }
+
+            //DialogResult result = MessageBox.Show("确认关闭程序吗？", "提示", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            //if (result == DialogResult.No)
+            //{
+            //    e.Cancel = true;
+            //    this.WindowState = FormWindowState.Minimized;
+            //    this.notifyIcon1.Visible = true;
+            //}
+        }
+
+        private bool EXIT = false;
+        /// <summary>
+        /// 密码正确关闭程序
+        /// </summary>
+        /// <param name="obj"></param>
+        private void Exit_Password(bool obj)
+        {
+            EXIT = obj;
         }
 
         /// <summary>
