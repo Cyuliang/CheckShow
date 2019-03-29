@@ -29,5 +29,14 @@
     <Setting Name="Exit_Password" Type="System.String" Scope="User">
       <Value Profile="(Default)">123</Value>
     </Setting>
+    <Setting Name="ContainerDLL_Ip" Type="System.String" Scope="User">
+      <Value Profile="(Default)">127.0.0.1</Value>
+    </Setting>
+    <Setting Name="ContainerDLL_Port" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">12011</Value>
+    </Setting>
+    <Setting Name="ContainerDLL_Intervals" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">10</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

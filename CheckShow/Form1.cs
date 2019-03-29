@@ -10,47 +10,61 @@ namespace CheckShow
     {
         private Picture _Picture = new Picture();
         private DataBase _DataBase = new DataBase();
-        private Container _Container = new Container();
         private Uvss _Uvss = new Uvss();
-        private Container_socket _Container_socket = new Container_socket();
 
         private delegate void UpdateUiBInvok(object state);
         private delegate void UpdateUIMessageInvok(string Message);
         private delegate void UpdateUIUVSS(bool status);
         private delegate void UpdateContianer(bool status);
-
-        private System.Threading.Timer _TimerDateStatus;
-        private DateTime LpnDt = DateTime.Now;
-        //private bool ContainerStatus = false;//判断箱号是否处理完成
+        //清除图片委托
+        private delegate void ClearnPictureDelegate();
+        private ClearnPictureDelegate clearnPicture;
 
         private Action<string[]> FromShowPicture;//主窗口显示图片
         private Action<string[]> ShowPicture;//弹窗显示图片
 
-        //清除图片委托
-        private delegate void ClearnPictureDelegate();
-        private ClearnPictureDelegate clearnPicture;
+        private System.Threading.Timer _TimerDateStatus;
+        private DateTime LpnDt = DateTime.Now;
 
         private string Container_ImagePath = Properties.Settings.Default.Container_ImagePath;
         private string Container_Lane = Properties.Settings.Default.Container_Lane;
         private string Container_Plate_Name = Properties.Settings.Default.Container_Plate_Name;
         private string Container_ChediPath = Properties.Settings.Default.Container_ChediPath;
 
-
         private TabPage PictureTable = new TabPage("图像");
+
+        /// <summary>
+        /// 远端箱号服务器
+        /// </summary>
+        private Container_socket_DLL  _Container_socket_ConNum_DLL= new Container_socket_DLL(
+            Properties.Settings.Default.ContainerDLL_Ip,
+            Properties.Settings.Default.ContainerDLL_Port,
+            Properties.Settings.Default.ContainerDLL_Intervals);
+
+        /// <summary>
+        /// 本地箱号服务器
+        /// </summary>
+        private Container_socket_DLL _Container_socket_Lpn_DLL = new Container_socket_DLL(
+            Properties.Settings.Default.Container_Ip,
+            Properties.Settings.Default.Container_Port,
+            Properties.Settings.Default.ContainerDLL_Intervals);
+
         public Form1()
         {
             InitializeComponent();
 
+            _Container_socket_Lpn_DLL.MessageCallBack += RunMessage;                            //运行消息
+            _Container_socket_Lpn_DLL.SocketStatusCallBack += _Container_socket_Lpn_DLLStatus;  //箱号链接状态            
+            _Container_socket_Lpn_DLL.LpnCallBack += _Container_socket_Lpn_DLLLpn;              //车牌结果
 
-            _Container_socket.LinkStatus += ContainerSocketStatus;//箱号结果链接状态
-            _Container_socket.MessageAction += UpdateUi;
-            _Container_socket.Comresult += Comresult1;
+            _Container_socket_ConNum_DLL.MessageCallBack += RunMessage;
+            _Container_socket_ConNum_DLL.SocketStatusCallBack += _Container_socket_ConNum_DLLStatus;
+            _Container_socket_ConNum_DLL.ConNumCallBack += _Container_socket_ConNum_DLLConNum;
+            _Container_socket_ConNum_DLL.LpnCallBack += _Container_socket_ConNum_DLLLpn;
 
             FromShowPicture += _Picture.ShowPicture;
             clearnPicture += _Picture.PictureClear;
 
-            _Container.LpnResult += InsertLpn;//车牌结果事件
-            _Container.GetStatusAction += ContainerStatus;//链接状态
             _Uvss.MessageAction += UVSSMessage;
             _Uvss.LinkStatusAction += UVSSStatus;
 
@@ -72,15 +86,12 @@ namespace CheckShow
             SetTablePage( _Picture);
         }
 
-        /// <summary>
-        /// 箱号结果
-        /// </summary>
-        /// <param name="obj"></param>
-        private void Comresult1(string obj)
+        #region 远端箱号
+        private void _Container_socket_ConNum_DLLConNum(DateTime arg1, string arg2)
         {
-            if(!string.IsNullOrEmpty(obj))
+            if (!string.IsNullOrEmpty(arg2))
             {
-                if (_DataBase.InsertContainer(obj) == 1)
+                if (_DataBase.InsertContainer(arg2) == 1)
                 {
                     Lognet.Log.Info("插入集装箱数据成功");
                 }
@@ -88,29 +99,16 @@ namespace CheckShow
             Lognet.Log.Debug("没有识别到集装箱号码");
         }
 
-        /// <summary>
-        /// 添加窗口到tabPage
-        /// </summary>
-        /// <param name="form"></param>
-        private void SetTablePage(Form form)
+        private void _Container_socket_ConNum_DLLLpn(DateTime arg1, string arg2)
         {
-            form.TopLevel = false;
-            form.Anchor = AnchorStyles.Top | AnchorStyles.Left;
-            form.FormBorderStyle = FormBorderStyle.None;
-            form.Dock = DockStyle.Fill;
-            form.Show();
-            tabPage1.Controls.Add(form);
+            //Nothing
         }
 
-        /// <summary>
-        /// 箱号数据结果链接状态
-        /// </summary>
-        /// <param name="obj"></param>
-        private void ContainerSocketStatus(bool obj)
+        private void _Container_socket_ConNum_DLLStatus(bool obj)
         {
             if (statusStrip1.InvokeRequired)
             {
-                statusStrip1.Invoke(new UpdateContianer(ContainerSocketStatus), new object[] { obj });
+                statusStrip1.Invoke(new UpdateContianer(_Container_socket_ConNum_DLLStatus), new object[] { obj });
             }
             else
             {
@@ -124,6 +122,96 @@ namespace CheckShow
                     toolStripStatusLabel8.BackColor = Color.DarkRed;
                 }
             }
+        }
+    
+        #endregion
+
+        /// <summary>
+        /// 运行状态提示
+        /// </summary>
+        /// <param name="Message"></param>
+        private void RunMessage(string Message)
+        {
+            if (statusStrip1.InvokeRequired)
+            {
+                statusStrip1?.Invoke(new UpdateUIMessageInvok(RunMessage), new object[] { Message });
+            }
+            else
+            {
+                toolStripStatusLabel4.Text = Message;
+                Lognet.Log.Info(Message);
+            }
+        }
+
+        #region 本地箱号动态库
+        /// <summary>
+        /// 箱号数据结果链接状态
+        /// </summary>
+        /// <param name="obj"></param>
+        private void _Container_socket_Lpn_DLLStatus(bool obj)
+        {
+            if (statusStrip1.InvokeRequired)
+            {
+                statusStrip1.Invoke(new UpdateContianer(_Container_socket_Lpn_DLLStatus), new object[] { obj });
+            }
+            else
+            {
+                if (obj)
+                {
+                    toolStripStatusLabel3.BackColor = Color.DarkGreen;
+                    _TimerDateStatus.Change(TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(0));
+                }
+                else
+                {
+                    toolStripStatusLabel3.BackColor = Color.DarkRed;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 车牌结果
+        /// </summary>
+        /// <param name="obj"></param>
+        private void _Container_socket_Lpn_DLLLpn(DateTime TriggerTime, string Lpn)
+        {
+            _TimerDateStatus.Change(TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(0));
+            string[] ImagePath = ReturnImagePath(TriggerTime, Lpn);
+
+            if (_DataBase.InsertData(TriggerTime, ImagePath) == 1)
+            {
+                Lognet.Log.Info("插入车牌数据成功");
+
+                //触发实时显示箱体图片
+                string[] rows = { null, null, null, null, ImagePath[1], ImagePath[3], ImagePath[2], ImagePath[4], ImagePath[5], ImagePath[6] };
+                clearnPicture?.Invoke();
+                FromShowPicture?.Invoke(rows);
+            }
+            LpnDt = TriggerTime;//车底图片保位置
+        }
+
+        /// <summary>
+        /// 箱号结果
+        /// </summary>
+        /// <param name="ConNum"></param>
+        private void _Container_socket_Lpn_DLLConNum(DateTime TriggerTime, string ConNum)
+        {
+            //Nothing
+        }
+        #endregion
+
+
+        /// <summary>
+        /// 添加窗口到tabPage
+        /// </summary>
+        /// <param name="form"></param>
+        private void SetTablePage(Form form)
+        {
+            form.TopLevel = false;
+            form.Anchor = AnchorStyles.Top | AnchorStyles.Left;
+            form.FormBorderStyle = FormBorderStyle.None;
+            form.Dock = DockStyle.Fill;
+            form.Show();
+            tabPage1.Controls.Add(form);
         }
 
         /// <summary>
@@ -155,7 +243,7 @@ namespace CheckShow
         /// <param name="obj"></param>
         private void UVSSMessage(string obj)
         {
-            UpdateUi(string.Format("车底触发：{0}",obj));
+            RunMessage(string.Format("车底触发：{0}",obj));
             _TimerDateStatus.Change(TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(0));
             string CheDiPath = string.Format(@"{0}\{1}\{2}\{3}\{4}_chedi.jpg", Container_ChediPath, LpnDt.Year.ToString(), LpnDt.Month.ToString().PadLeft(2, '0'), LpnDt.Day.ToString().PadLeft(2, '0'), LpnDt.ToString("yyyyMMddHHmmss"));
 
@@ -199,75 +287,10 @@ namespace CheckShow
             }
             else
             {
-                toolStripStatusLabel4.Text = "等待车辆数据！";
+                toolStripStatusLabel4.Text = "就绪";
             }
         }
 
-        /// <summary>
-        /// 箱号链接状态
-        /// </summary>
-        /// <param name="obj"></param>
-        private void ContainerStatus(bool obj)
-        {
-            if (statusStrip1.InvokeRequired)
-            {
-                statusStrip1.Invoke(new UpdateContianer(ContainerStatus), new object[] { obj });
-            }
-            else
-            {
-                if (obj)
-                {
-                    toolStripStatusLabel3.BackColor = Color.DarkGreen;
-                    _TimerDateStatus.Change(TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(0));
-                }
-                else
-                {
-                    toolStripStatusLabel3.BackColor = Color.DarkRed;
-                }
-            }
-        }
-
-        /// <summary>
-        /// 车牌结果触发插入数据库
-        /// </summary>
-        /// <param name="arg1"></param>
-        /// <param name="arg2"></param>
-        private void InsertLpn(DateTime arg1, string arg2)
-        {
-            UpdateUi(string.Format("Date：{0} 车辆通过：{1}", arg1.ToString("yyyy-MM-dd HH:mm:ss"), arg2));
-            _TimerDateStatus.Change(TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(0));
-
-            string[] ImagePath = ReturnImagePath(arg1, arg2);
-
-            if (_DataBase.InsertData(arg1, ImagePath) == 1)
-            {
-                Lognet.Log.Info("插入车牌数据成功");
-
-                //触发实时显示箱体图片
-                string[] rows = { null, null, null, null,ImagePath[1], ImagePath[3], ImagePath[2], ImagePath[4], ImagePath[5], ImagePath[6] };
-                //ShowPicture += _Picture.ShowPicture;
-                clearnPicture?.Invoke();
-                FromShowPicture?.Invoke(rows);
-            }
-
-            LpnDt = arg1;//车底图片保位置
-        }
-
-        /// <summary>
-        /// 车辆触发更新状态提示
-        /// </summary>
-        /// <param name="Message"></param>
-        private void UpdateUi(string Message)
-        {
-            if(statusStrip1.InvokeRequired)
-            {
-                statusStrip1?.Invoke(new UpdateUIMessageInvok(UpdateUi), new object[] { Message });
-            }
-            else
-            {
-                toolStripStatusLabel4.Text = Message;
-            }
-        }
 
         /// <summary>
         /// 查询数据

@@ -130,5 +130,41 @@ namespace CheckShow.Properties {
                 this["Exit_Password"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("127.0.0.1")]
+        public string ContainerDLL_Ip {
+            get {
+                return ((string)(this["ContainerDLL_Ip"]));
+            }
+            set {
+                this["ContainerDLL_Ip"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("12011")]
+        public int ContainerDLL_Port {
+            get {
+                return ((int)(this["ContainerDLL_Port"]));
+            }
+            set {
+                this["ContainerDLL_Port"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        public int ContainerDLL_Intervals {
+            get {
+                return ((int)(this["ContainerDLL_Intervals"]));
+            }
+            set {
+                this["ContainerDLL_Intervals"] = value;
+            }
+        }
     }
 }

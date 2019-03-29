@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CheckShow {
+namespace CheckShow.Resources {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace CheckShow {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("CheckShow.tubiao", typeof(tubiao).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("CheckShow.Resources.tubiao", typeof(tubiao).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

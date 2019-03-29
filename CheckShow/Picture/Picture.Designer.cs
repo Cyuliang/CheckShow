@@ -157,6 +157,7 @@
             // pictureBox1
             // 
             this.pictureBox1.BackColor = System.Drawing.Color.PaleGreen;
+            this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBox1.Location = new System.Drawing.Point(0, 0);
             this.pictureBox1.Name = "pictureBox1";
@@ -190,6 +191,7 @@
             // pictureBox4
             // 
             this.pictureBox4.BackColor = System.Drawing.Color.PaleGreen;
+            this.pictureBox4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBox4.Location = new System.Drawing.Point(535, 3);
             this.pictureBox4.Name = "pictureBox4";
@@ -202,6 +204,7 @@
             // pictureBox3
             // 
             this.pictureBox3.BackColor = System.Drawing.Color.PaleGreen;
+            this.pictureBox3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBox3.Location = new System.Drawing.Point(269, 3);
             this.pictureBox3.Name = "pictureBox3";
@@ -214,6 +217,7 @@
             // pictureBox2
             // 
             this.pictureBox2.BackColor = System.Drawing.Color.PaleGreen;
+            this.pictureBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBox2.Location = new System.Drawing.Point(3, 3);
             this.pictureBox2.Name = "pictureBox2";
@@ -226,6 +230,7 @@
             // pictureBox7
             // 
             this.pictureBox7.BackColor = System.Drawing.Color.PaleGreen;
+            this.pictureBox7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox7.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBox7.Location = new System.Drawing.Point(535, 145);
             this.pictureBox7.Name = "pictureBox7";
@@ -238,6 +243,7 @@
             // pictureBox6
             // 
             this.pictureBox6.BackColor = System.Drawing.Color.PaleGreen;
+            this.pictureBox6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox6.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBox6.Location = new System.Drawing.Point(269, 145);
             this.pictureBox6.Name = "pictureBox6";
@@ -250,6 +256,7 @@
             // pictureBox5
             // 
             this.pictureBox5.BackColor = System.Drawing.Color.PaleGreen;
+            this.pictureBox5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBox5.Location = new System.Drawing.Point(3, 145);
             this.pictureBox5.Name = "pictureBox5";

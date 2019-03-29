@@ -15,9 +15,8 @@
         {
             if (disposing && (components != null))
             {
-                _TimerDateStatus.Dispose();
                 components.Dispose();
-                _Container.Dispose();
+                _TimerDateStatus.Dispose();
                 _DataBase.Dispose();
                 _Uvss.Dispose();
             }
@@ -53,10 +52,13 @@
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel6 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel5 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel7 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel8 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel4 = new System.Windows.Forms.ToolStripStatusLabel();
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.radioContainerButton = new System.Windows.Forms.RadioButton();
             this.ClearDataButton = new System.Windows.Forms.Button();
@@ -74,9 +76,6 @@
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.toolStripStatusLabel7 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabel8 = new System.Windows.Forms.ToolStripStatusLabel();
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator1)).BeginInit();
             this.bindingNavigator1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataSet1)).BeginInit();
@@ -113,7 +112,7 @@
             this.bindingNavigator1.MovePreviousItem = this.bindingNavigatorMovePreviousItem;
             this.bindingNavigator1.Name = "bindingNavigator1";
             this.bindingNavigator1.PositionItem = this.bindingNavigatorPositionItem;
-            this.bindingNavigator1.Size = new System.Drawing.Size(923, 25);
+            this.bindingNavigator1.Size = new System.Drawing.Size(828, 25);
             this.bindingNavigator1.TabIndex = 0;
             this.bindingNavigator1.Text = "bindingNavigator1";
             // 
@@ -221,7 +220,7 @@
             this.toolStripStatusLabel4});
             this.statusStrip1.Location = new System.Drawing.Point(0, 428);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(923, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(828, 22);
             this.statusStrip1.TabIndex = 2;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -257,10 +256,25 @@
             this.toolStripStatusLabel5.Size = new System.Drawing.Size(56, 17);
             this.toolStripStatusLabel5.Text = "车底系统";
             // 
+            // toolStripStatusLabel7
+            // 
+            this.toolStripStatusLabel7.Name = "toolStripStatusLabel7";
+            this.toolStripStatusLabel7.Size = new System.Drawing.Size(11, 17);
+            this.toolStripStatusLabel7.Text = "|";
+            // 
+            // toolStripStatusLabel8
+            // 
+            this.toolStripStatusLabel8.BackColor = System.Drawing.Color.DarkRed;
+            this.toolStripStatusLabel8.ForeColor = System.Drawing.SystemColors.Control;
+            this.toolStripStatusLabel8.Name = "toolStripStatusLabel8";
+            this.toolStripStatusLabel8.Size = new System.Drawing.Size(68, 17);
+            this.toolStripStatusLabel8.Text = "箱号数据库";
+            // 
             // toolStripStatusLabel4
             // 
+            this.toolStripStatusLabel4.AutoSize = false;
             this.toolStripStatusLabel4.Name = "toolStripStatusLabel4";
-            this.toolStripStatusLabel4.Size = new System.Drawing.Size(749, 17);
+            this.toolStripStatusLabel4.Size = new System.Drawing.Size(670, 17);
             this.toolStripStatusLabel4.Spring = true;
             // 
             // tableLayoutPanel1
@@ -273,9 +287,9 @@
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 25);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 103F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(923, 403);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(828, 403);
             this.tableLayoutPanel1.TabIndex = 3;
             // 
             // groupBox1
@@ -296,22 +310,32 @@
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(3, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(917, 94);
+            this.groupBox1.Size = new System.Drawing.Size(822, 97);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "查询条件";
             // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(281, 47);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(144, 16);
+            this.checkBox1.TabIndex = 13;
+            this.checkBox1.Text = "是否只检索集装箱车辆";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(269, 58);
+            this.textBox2.Location = new System.Drawing.Point(74, 72);
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(111, 21);
+            this.textBox2.Size = new System.Drawing.Size(184, 21);
             this.textBox2.TabIndex = 12;
             // 
             // radioContainerButton
             // 
             this.radioContainerButton.AutoSize = true;
-            this.radioContainerButton.Location = new System.Drawing.Point(187, 59);
+            this.radioContainerButton.Location = new System.Drawing.Point(7, 73);
             this.radioContainerButton.Name = "radioContainerButton";
             this.radioContainerButton.Size = new System.Drawing.Size(71, 16);
             this.radioContainerButton.TabIndex = 11;
@@ -321,9 +345,9 @@
             // 
             // ClearDataButton
             // 
-            this.ClearDataButton.Location = new System.Drawing.Point(813, 20);
+            this.ClearDataButton.Location = new System.Drawing.Point(736, 20);
             this.ClearDataButton.Name = "ClearDataButton";
-            this.ClearDataButton.Size = new System.Drawing.Size(75, 56);
+            this.ClearDataButton.Size = new System.Drawing.Size(75, 53);
             this.ClearDataButton.TabIndex = 10;
             this.ClearDataButton.Text = "清除数据表";
             this.ClearDataButton.UseVisualStyleBackColor = true;
@@ -332,9 +356,9 @@
             // 
             // ShowPictureButton
             // 
-            this.ShowPictureButton.Location = new System.Drawing.Point(641, 20);
+            this.ShowPictureButton.Location = new System.Drawing.Point(566, 20);
             this.ShowPictureButton.Name = "ShowPictureButton";
-            this.ShowPictureButton.Size = new System.Drawing.Size(75, 56);
+            this.ShowPictureButton.Size = new System.Drawing.Size(75, 53);
             this.ShowPictureButton.TabIndex = 9;
             this.ShowPictureButton.Text = "显示图片";
             this.ShowPictureButton.UseVisualStyleBackColor = true;
@@ -342,7 +366,7 @@
             // 
             // LogButton
             // 
-            this.LogButton.Location = new System.Drawing.Point(727, 20);
+            this.LogButton.Location = new System.Drawing.Point(481, 20);
             this.LogButton.Name = "LogButton";
             this.LogButton.Size = new System.Drawing.Size(75, 56);
             this.LogButton.TabIndex = 8;
@@ -352,15 +376,15 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(71, 58);
+            this.textBox1.Location = new System.Drawing.Point(74, 45);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(99, 21);
+            this.textBox1.Size = new System.Drawing.Size(184, 21);
             this.textBox1.TabIndex = 7;
             // 
             // radioPlateButton
             // 
             this.radioPlateButton.AutoSize = true;
-            this.radioPlateButton.Location = new System.Drawing.Point(7, 59);
+            this.radioPlateButton.Location = new System.Drawing.Point(7, 46);
             this.radioPlateButton.Name = "radioPlateButton";
             this.radioPlateButton.Size = new System.Drawing.Size(59, 16);
             this.radioPlateButton.TabIndex = 5;
@@ -381,9 +405,9 @@
             // 
             // FindButton
             // 
-            this.FindButton.Location = new System.Drawing.Point(555, 20);
+            this.FindButton.Location = new System.Drawing.Point(651, 20);
             this.FindButton.Name = "FindButton";
-            this.FindButton.Size = new System.Drawing.Size(75, 56);
+            this.FindButton.Size = new System.Drawing.Size(75, 53);
             this.FindButton.TabIndex = 3;
             this.FindButton.Text = "查询";
             this.FindButton.UseVisualStyleBackColor = true;
@@ -391,15 +415,15 @@
             // 
             // dateTimePicker2
             // 
-            this.dateTimePicker2.Location = new System.Drawing.Point(313, 20);
+            this.dateTimePicker2.Location = new System.Drawing.Point(281, 20);
             this.dateTimePicker2.Name = "dateTimePicker2";
-            this.dateTimePicker2.Size = new System.Drawing.Size(223, 21);
+            this.dateTimePicker2.Size = new System.Drawing.Size(190, 21);
             this.dateTimePicker2.TabIndex = 2;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(296, 26);
+            this.label1.Location = new System.Drawing.Point(264, 24);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(11, 12);
             this.label1.TabIndex = 1;
@@ -407,9 +431,9 @@
             // 
             // dateTimePicker1
             // 
-            this.dateTimePicker1.Location = new System.Drawing.Point(71, 20);
+            this.dateTimePicker1.Location = new System.Drawing.Point(74, 18);
             this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(202, 21);
+            this.dateTimePicker1.Size = new System.Drawing.Size(184, 21);
             this.dateTimePicker1.TabIndex = 0;
             // 
             // tabControl1
@@ -417,10 +441,10 @@
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl1.Location = new System.Drawing.Point(3, 103);
+            this.tabControl1.Location = new System.Drawing.Point(3, 106);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(917, 297);
+            this.tabControl1.Size = new System.Drawing.Size(822, 294);
             this.tabControl1.TabIndex = 1;
             // 
             // tabPage1
@@ -428,7 +452,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(909, 271);
+            this.tabPage1.Size = new System.Drawing.Size(814, 268);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "图像";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -471,35 +495,11 @@
             this.notifyIcon1.Visible = true;
             this.notifyIcon1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseDoubleClick);
             // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(391, 60);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(144, 16);
-            this.checkBox1.TabIndex = 13;
-            this.checkBox1.Text = "是否只检索集装箱车辆";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            // 
-            // toolStripStatusLabel7
-            // 
-            this.toolStripStatusLabel7.Name = "toolStripStatusLabel7";
-            this.toolStripStatusLabel7.Size = new System.Drawing.Size(11, 17);
-            this.toolStripStatusLabel7.Text = "|";
-            // 
-            // toolStripStatusLabel8
-            // 
-            this.toolStripStatusLabel8.BackColor = System.Drawing.Color.DarkRed;
-            this.toolStripStatusLabel8.ForeColor = System.Drawing.SystemColors.Control;
-            this.toolStripStatusLabel8.Name = "toolStripStatusLabel8";
-            this.toolStripStatusLabel8.Size = new System.Drawing.Size(68, 17);
-            this.toolStripStatusLabel8.Text = "箱号数据库";
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(923, 450);
+            this.ClientSize = new System.Drawing.Size(828, 450);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.bindingNavigator1);

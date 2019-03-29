@@ -72,15 +72,15 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>1189944372_b.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\1189944372_b.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ContainelDll, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\ContainelDll\ContainelDll\bin\x86\Release\netstandard2.0\ContainelDll.dll</HintPath>
+    </Reference>
     <Reference Include="log4net">
       <HintPath>.\log4net.dll</HintPath>
-    </Reference>
-    <Reference Include="OCX, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Desktop\OCX\2010\OCX.DLL</HintPath>
     </Reference>
     <Reference Include="stdole, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <EmbedInteropTypes>True</EmbedInteropTypes>
@@ -103,21 +103,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BigShow.cs">
+    <Compile Include="Picture\BigShow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="BigShow.Designer.cs">
+    <Compile Include="Picture\BigShow.Designer.cs">
       <DependentUpon>BigShow.cs</DependentUpon>
     </Compile>
-    <Compile Include="Container.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Container_socket.cs" />
-    <Compile Include="DataBase.cs" />
-    <Compile Include="ExitPasswordForm.cs">
+    <Compile Include="Container_DLL\Container_socket.cs" />
+    <Compile Include="DataBase\DataBase.cs" />
+    <Compile Include="ExitPassword\ExitPasswordForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ExitPasswordForm.Designer.cs">
+    <Compile Include="ExitPassword\ExitPasswordForm.Designer.cs">
       <DependentUpon>ExitPasswordForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Form1.cs">
@@ -127,43 +124,42 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="LogForm.cs">
+    <Compile Include="Log\LogForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="LogForm.Designer.cs">
+    <Compile Include="Log\LogForm.Designer.cs">
       <DependentUpon>LogForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Lognet.cs" />
-    <Compile Include="Picture.cs">
+    <Compile Include="Log\Lognet.cs" />
+    <Compile Include="Picture\Picture.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Picture.Designer.cs">
+    <Compile Include="Picture\Picture.Designer.cs">
       <DependentUpon>Picture.cs</DependentUpon>
     </Compile>
-    <Compile Include="SafeNativeMethods.cs" />
-    <Compile Include="SQLiteDBHelper.cs" />
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="tubiao.Designer.cs">
+    <Compile Include="Resources\tubiao.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>tubiao.resx</DependentUpon>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Uvss.cs" />
-    <EmbeddedResource Include="BigShow.resx">
+    <Compile Include="UVSS\SafeNativeMethods.cs" />
+    <Compile Include="DataBase\SQLiteDBHelper.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UVSS\Uvss.cs" />
+    <EmbeddedResource Include="Picture\BigShow.resx">
       <DependentUpon>BigShow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ExitPasswordForm.resx">
+    <EmbeddedResource Include="ExitPassword\ExitPasswordForm.resx">
       <DependentUpon>ExitPasswordForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="LogForm.resx">
+    <EmbeddedResource Include="Log\LogForm.resx">
       <DependentUpon>LogForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Picture.resx">
+    <EmbeddedResource Include="Picture\Picture.resx">
       <DependentUpon>Picture.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -176,12 +172,13 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="tubiao.resx">
+    <EmbeddedResource Include="Resources\tubiao.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>tubiao.Designer.cs</LastGenOutput>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+      <LastGenOutput>tubiao.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="log4net.config">
+    <None Include="Log\log4net.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </None>
@@ -232,7 +229,10 @@
     <None Include="Resources\baocun.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="1189944372_b.ico" />
+    <Content Include="Resources\1189944372_b.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Container_OCX\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
