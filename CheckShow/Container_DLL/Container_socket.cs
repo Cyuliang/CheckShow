@@ -7,7 +7,7 @@ namespace CheckShow
     {
         public Action<bool>   SocketStatusCallBack=null;
         public Action<DateTime, string> LpnCallBack=null;
-        public Action<DateTime, string> ConNumCallBack=null;
+        public Action<DateTime, string,string> ConNumCallBack=null;
         public Action<string> MessageCallBack=null;
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace CheckShow
         /// <param name="e"></param>
         private void _Container_ConNumEvent(object sender, ConNumEventArgs e)
         {
-            ConNumCallBack?.Invoke(e.TriggerTime, e.ContainerNum1);
+            ConNumCallBack?.Invoke(e.TriggerTime, e.ContainerNum1,e.CheckNum1);
         }
 
         /// <summary>

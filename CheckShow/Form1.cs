@@ -89,16 +89,19 @@ namespace CheckShow
         }
 
         #region 远端箱号
-        private void _Container_socket_ConNum_DLLConNum(DateTime arg1, string arg2)
+        private void _Container_socket_ConNum_DLLConNum(DateTime arg1, string Con,string Check)
         {
-            if (!string.IsNullOrEmpty(arg2))
+            if (!string.IsNullOrEmpty(Con))
             {
-                if (_DataBase.InsertContainer(arg2) == 1)
+                if (_DataBase.InsertContainer(Con,Check) == 1)
                 {
                     Lognet.Log.Info("插入集装箱数据成功");
                 }
             }
-            Lognet.Log.Debug("没有识别到集装箱号码");
+            else
+            {
+                Lognet.Log.Debug("没有识别到集装箱号码");
+            }
         }
 
         private void _Container_socket_ConNum_DLLLpn(DateTime arg1, string arg2)
@@ -177,6 +180,10 @@ namespace CheckShow
         private void _Container_socket_Lpn_DLLLpn(DateTime TriggerTime, string Lpn)
         {
             _TimerDateStatus.Change(TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(0));
+            if(string.IsNullOrEmpty(Lpn))
+            {
+                Lpn = "nul";
+            }
             string[] ImagePath = ReturnImagePath(TriggerTime, Lpn);
 
             if (_DataBase.InsertData(TriggerTime, ImagePath) == 1)
@@ -301,14 +308,31 @@ namespace CheckShow
         /// <param name="e"></param>
         private void FindButton_Click(object sender, EventArgs e)
         {
-            bool onlyContainer = false;
+            bool onlyContainer = false;//帅选箱号
+            bool onlyPlate = false;//筛选车牌
+            string CheckNum = "ALL";//筛选正确结果
             string Plate = string.Empty;
             string Container = string.Empty;
 
+            //筛选车牌
+            if(checkBox2.Checked)
+            {
+                onlyPlate = true;
+            }
             //只查询集装箱
             if (checkBox1.Checked)
             {
                 onlyContainer = true;
+            }
+            //只查正确结果
+            if(radioButton2.Checked)
+            {
+                CheckNum = "Y";
+            }
+            //只查错误结果
+            if (radioButton3.Checked)
+            {
+                CheckNum = "N";
             }
 
             if(radioPlateButton.Checked)
@@ -319,7 +343,7 @@ namespace CheckShow
             {
                 Container = textBox2.Text;
             }
-            bindingSource1.DataSource = _DataBase.Select(dateTimePicker1.Value,dateTimePicker2.Value, Plate,Container, onlyContainer).Tables["Picture"];
+            bindingSource1.DataSource = _DataBase.Select(dateTimePicker1.Value,dateTimePicker2.Value, Plate,Container, onlyContainer, onlyPlate, CheckNum).Tables["Picture"];
             bindingNavigator1.BindingSource = bindingSource1;
             dataGridView1.DataSource = bindingSource1;
             dataGridView1.Columns[1].DefaultCellStyle.Format = "yyyy-MM-dd HH:mm:ss";
@@ -509,6 +533,22 @@ namespace CheckShow
                 ;//数据表不存在
             }
 
+        }
+
+        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        {
+            if(checkBox2.Checked)
+            {
+                checkBox1.Checked = false;
+            }
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if(checkBox1.Checked)
+            {
+                checkBox2.Checked = false;
+            }
         }
     }
 }

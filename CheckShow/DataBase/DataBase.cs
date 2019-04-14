@@ -58,21 +58,29 @@ namespace CheckShow
         /// </summary>
         /// <param name="Container"></param>
         /// <returns></returns>
-        public int InsertContainer(string Container)
+        public int InsertContainer(string Container,string CheckNum)
         {
             SQLiteParameter[] parameters =
             {
-                new SQLiteParameter("@Container",DbType.String,10)
+                new SQLiteParameter("@Container",DbType.String,10),
+                new SQLiteParameter("@CheckNum",DbType.String,10)
             };
+
             int result = -1;
+
             try
             {
                 //parameters[0].Value = dt;
                 parameters[0].Value = Container;
+                parameters[1].Value = CheckNum;
                 //command.CommandText = @"UPDATE Picture SET P_6=@UVSSPath WHERE P_6='nul' order by ID desc limit 1";
-                command.CommandText = "update Picture set Container=@Container where ID =(select ID from Picture order by ID desc limit 1) and Container='nul'";
+                command.CommandText = "update Picture set Container=@Container,CheckNum=@CheckNum where ID =(select ID from Picture order by ID desc limit 1) and Container='nul'";
                 command.Parameters.AddRange(parameters);
                 result = command.ExecuteNonQuery();
+
+                //command.CommandText = "update Picture set CheckNum=@CheckNum where ID =(select ID from Picture order by ID desc limit 1) and Container=@Container";
+                //command.Parameters.AddRange(parameters);
+                //result = command.ExecuteNonQuery();
             }
             catch (Exception ex)
             {
@@ -131,7 +139,7 @@ namespace CheckShow
         /// </summary>
         /// <param name="parameter"></param>
         /// <returns></returns>
-        public DataSet Select(DateTime dts,DateTime dte,string Plate,string Container,bool onlyContainer)
+        public DataSet Select(DateTime dts,DateTime dte,string Plate,string Container,bool onlyContainer,bool onlyPlate,string CheckNum)
         {
             DataSet ds = new DataSet();
             string cmdText = string.Empty;
@@ -147,45 +155,62 @@ namespace CheckShow
                 parameter[1].Value = dte;
                 parameter[2].Value = Plate;
                 parameter[3].Value = Container;
-                
-                if(string.IsNullOrEmpty(Plate))
-                {
-                    if(string.IsNullOrEmpty(Container))
-                    {
-                        if(onlyContainer)
-                        {
-                            cmdText = "SELECT * FROM Picture WHERE Date BETWEEN @DateS AND @DateE and Container is not 'nul'";
-                        }
-                        else
-                        {
-                            cmdText = "SELECT * FROM Picture WHERE Date BETWEEN @DateS AND @DateE";
-                        }
-                    }
-                    else
-                    {
-                        if(onlyContainer)
-                        {
-                            cmdText = "SELECT * FROM Picture WHERE  Container=@Container and Container is not 'nul'";
-                        }
-                        else
-                        {
-                            cmdText = "SELECT * FROM Picture WHERE  Container=@Container";
 
-                        }
-                    }
+                if (onlyPlate)//空车牌
+                {
+                    cmdText = "SELECT * FROM Picture WHERE Plate='nul' or Plate=''";
                 }
                 else
                 {
-                    if(onlyContainer)
+                    if (string.IsNullOrEmpty(Plate))
                     {
-                        cmdText = "SELECT * FROM Picture WHERE  Plate=@Plate and Container is not 'nul'";
+                        if (string.IsNullOrEmpty(Container))
+                        {
+                            if (onlyContainer)
+                            {
+                                if (CheckNum == "ALL")//查询所有箱号结果
+                                {
+                                    cmdText = "SELECT * FROM Picture WHERE Date BETWEEN @DateS AND @DateE and Container is not 'nul'";
+                                }
+                                if (CheckNum == "Y")//查询正确箱号结果
+                                {
+                                    cmdText = "SELECT * FROM Picture WHERE Date BETWEEN @DateS AND @DateE and Container is not 'nul' and CheckNum='Y' ";
+                                }
+                                if (CheckNum == "N")//查询错误箱号结果
+                                {
+                                    cmdText = "SELECT * FROM Picture WHERE Date BETWEEN @DateS AND @DateE and Container is not 'nul' and CheckNum='N'";
+                                }
+                            }
+                            else
+                            {
+                                cmdText = "SELECT * FROM Picture WHERE Date BETWEEN @DateS AND @DateE";
+                            }
+                        }
+                        else
+                        {
+                            if (onlyContainer)
+                            {
+                                cmdText = "SELECT * FROM Picture WHERE  Container=@Container and Container is not 'nul'";
+                            }
+                            else
+                            {
+                                cmdText = "SELECT * FROM Picture WHERE  Container=@Container";
+
+                            }
+                        }
                     }
                     else
                     {
-                        cmdText = "SELECT * FROM Picture WHERE  Plate=@Plate";
+                        if (onlyContainer)
+                        {
+                            cmdText = "SELECT * FROM Picture WHERE  Plate=@Plate and Container is not 'nul'";
+                        }
+                        else
+                        {
+                            cmdText = "SELECT * FROM Picture WHERE  Plate=@Plate";
+                        }
                     }
                 }
-
                 command.CommandText = cmdText;
                 command.Parameters.AddRange(parameter);
                 SQLiteDataAdapter da = new SQLiteDataAdapter(command);

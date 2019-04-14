@@ -14,14 +14,7 @@ namespace CheckShow
     public abstract class SQLiteDBHelper
     {
         private readonly string connectionString = string.Empty;
-        /// <summary> 
-        /// 构造函数 
-        /// </summary> 
-        /// <param name="dbPath">SQLite数据库文件路径</param> 
-        //public SQLiteDBHelper(string dbPath)
-        //{
-        //    this.connectionString = "Data Source=" + dbPath;
-        //}
+
         /// <summary> 
         /// 创建SQLite数据库文件 
         /// </summary> 
@@ -36,16 +29,17 @@ namespace CheckShow
                     try
                     {
                         command.CommandText = @"CREATE TABLE `Picture` (
-	                        `ID`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-	                        `Date`	datetime,
-	                        `Plate`	TEXT DEFAULT 'nul',
-                            `Container` TEXT DEFAULT 'nul',
-	                        `P_1`	TEXT DEFAULT 'nul',
-	                        `P_2`	TEXT DEFAULT 'nul',
-	                        `P_3`	TEXT DEFAULT 'nul',
-	                        `P_4`	TEXT DEFAULT 'nul',
-	                        `P_5`	TEXT DEFAULT 'nul',
-	                        `P_6`	TEXT DEFAULT 'nul'
+	                        `ID`	    INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	                        `Date`	    datetime,
+	                        `Plate`	    TEXT DEFAULT 'nul',
+                            `Container` TEXT DEFAULT 'nul',                            
+	                        `P_1`	    TEXT DEFAULT 'nul',
+	                        `P_2`	    TEXT DEFAULT 'nul',
+	                        `P_3`	    TEXT DEFAULT 'nul',
+	                        `P_4`	    TEXT DEFAULT 'nul',
+	                        `P_5`	    TEXT DEFAULT 'nul',
+	                        `P_6`	    TEXT DEFAULT 'nul',
+                            `CheckNum`  TEXT DEFAULT 'nul'
                     )";
                         command.ExecuteNonQuery();
                         command.CommandText = @"CREATE INDEX `Plate` ON `Picture` (`Plate`	ASC)";
