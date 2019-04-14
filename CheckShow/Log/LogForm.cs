@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.SQLite;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CheckShow
@@ -14,7 +8,7 @@ namespace CheckShow
     public partial class LogForm : Form
     {
         private DataBase _DataBase = new DataBase();
-        private readonly string connectionString = @"Data Source=log4net.db;Pooling = true;FaillfMissing=false";
+        private readonly string connectionString = @"Data Source=Log//Log.db;Pooling = true;FaillfMissing=false";
         public LogForm()
         {
             InitializeComponent();

@@ -8,6 +8,8 @@ namespace CheckShow
 {
     public partial class Form1 : Form
     {
+        private GreateDataBase _GreateDataBase = new GreateDataBase();
+
         private Picture _Picture = new Picture();
         private DataBase _DataBase = new DataBase();
         private Uvss _Uvss = new Uvss();

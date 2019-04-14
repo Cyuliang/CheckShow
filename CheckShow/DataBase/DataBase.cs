@@ -11,10 +11,9 @@ namespace CheckShow
  
         public DataBase()
         {
-            GreateDataBase();
             try
             {
-                connection = new SQLiteConnection(@"Data Source=Data.db;Pooling = true;FaillfMissing=false");
+                connection = new SQLiteConnection(@"Data Source=Data//Data.db;Pooling = true;FaillfMissing=false");
                 connection.Open();
                 command = new SQLiteCommand(connection);
             }
@@ -22,19 +21,6 @@ namespace CheckShow
             {
                 connection.Close();
                 Lognet.Log.Error("打开数据库错误",ex);
-            }
-        }
-
-        /// <summary>
-        /// 判断数据库是否存在，不存在则创建数据库
-        /// </summary>
-        private void GreateDataBase()
-        {
-            string DataBase = "Data.db";
-            if (!System.IO.File.Exists(DataBase))
-            {
-                SQLiteDBHelper.CreateDB(DataBase);
-                Lognet.Log.Warn("箱号数据库不存在，重新创建数据库");
             }
         }
 

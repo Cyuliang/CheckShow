@@ -18,10 +18,10 @@ namespace CheckShow
         /// 构造函数 
         /// </summary> 
         /// <param name="dbPath">SQLite数据库文件路径</param> 
-        public SQLiteDBHelper(string dbPath)
-        {
-            this.connectionString = "Data Source=" + dbPath;
-        }
+        //public SQLiteDBHelper(string dbPath)
+        //{
+        //    this.connectionString = "Data Source=" + dbPath;
+        //}
         /// <summary> 
         /// 创建SQLite数据库文件 
         /// </summary> 
@@ -30,13 +30,16 @@ namespace CheckShow
         {
             using (SQLiteConnection connection = new SQLiteConnection("Data Source=" + dbPath))
             {
-                connection.Open();
+                connection.Open();                
                 using (SQLiteCommand command = new SQLiteCommand(connection))
                 {
-                    command.CommandText = @"CREATE TABLE `Picture` (
+                    try
+                    {
+                        command.CommandText = @"CREATE TABLE `Picture` (
 	                        `ID`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 	                        `Date`	datetime,
 	                        `Plate`	TEXT DEFAULT 'nul',
+                            `Container` TEXT DEFAULT 'nul',
 	                        `P_1`	TEXT DEFAULT 'nul',
 	                        `P_2`	TEXT DEFAULT 'nul',
 	                        `P_3`	TEXT DEFAULT 'nul',
@@ -44,11 +47,18 @@ namespace CheckShow
 	                        `P_5`	TEXT DEFAULT 'nul',
 	                        `P_6`	TEXT DEFAULT 'nul'
                     )";
-                    command.ExecuteNonQuery();
-                    command.CommandText = @"CREATE INDEX `Plate` ON `Picture` (`Plate`	ASC)";
-                    command.ExecuteNonQuery();
-                    command.CommandText = @"CREATE INDEX `Date` ON `Picture`  (`Date`	ASC)";
-                    command.ExecuteNonQuery();
+                        command.ExecuteNonQuery();
+                        command.CommandText = @"CREATE INDEX `Plate` ON `Picture` (`Plate`	ASC)";
+                        command.ExecuteNonQuery();
+                        command.CommandText = @"CREATE INDEX `Date` ON `Picture`  (`Date`	ASC)";
+                        command.ExecuteNonQuery();
+                        command.CommandText = @"CREATE INDEX `Container` ON `Picture` (`Container`	ASC)";
+                        command.ExecuteNonQuery();
+                    }
+                    catch
+                    {
+                        ;
+                    }
                 }
             }
         }
@@ -64,18 +74,25 @@ namespace CheckShow
                 connection.Open();
                 using (SQLiteCommand command = new SQLiteCommand(connection))
                 {
-                    command.CommandText = @"CREATE TABLE `Log` (
+                    try
+                    {
+                        command.CommandText = @"CREATE TABLE `Log` (
 	                    `LogId`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 	                    `Date`	DATETIME NOT NULL,
 	                    `Level`	VARCHAR ( 50 ) NOT NULL,
 	                    `Logger`	VARCHAR ( 255 ) NOT NULL,
 	                    `Message`	TEXT DEFAULT 'nul',
 	                    `Exception`	TEXT DEFAULT 'nul');";
-                    command.ExecuteNonQuery();
-                    command.CommandText = @"CREATE INDEX `Level` ON `Log` (`Level`	ASC)";
-                    command.ExecuteNonQuery();
-                    command.CommandText = @"CREATE INDEX `Date` ON `Log`  (`Date`	ASC)";
-                    command.ExecuteNonQuery();
+                        command.ExecuteNonQuery();
+                        command.CommandText = @"CREATE INDEX `Level` ON `Log` (`Level`	ASC)";
+                        command.ExecuteNonQuery();
+                        command.CommandText = @"CREATE INDEX `Date` ON `Log`  (`Date`	ASC)";
+                        command.ExecuteNonQuery();
+                    }
+                    catch
+                    {
+                        ;
+                    }                            
                 }
             }
         }

@@ -75,9 +75,8 @@
     <ApplicationIcon>Resources\1189944372_b.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ContainelDll, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\ContainelDll\ContainelDll\bin\x86\Release\netstandard2.0\ContainelDll.dll</HintPath>
+    <Reference Include="ContainelDll">
+      <HintPath>..\..\ContainelDll-master\ContainelDll\bin\x86\Release\netstandard2.0\ContainelDll.dll</HintPath>
     </Reference>
     <Reference Include="log4net">
       <HintPath>.\log4net.dll</HintPath>
@@ -87,22 +86,22 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.SQLite, Version=1.0.109.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>.\System.Data.SQLite.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Data.SQLite.Linq, Version=1.0.109.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Downloads\sqlite-netFx46-binary-bundle-Win32-2015-1.0.109.0\System.Data.SQLite.Linq.dll</HintPath>
-    </Reference>
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.SQLite, Version=1.0.109.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\System.Data.SQLite\2015\bin\System.Data.SQLite.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SQLite.Linq">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\System.Data.SQLite\2015\bin\System.Data.SQLite.Linq.dll</HintPath>
+    </Reference>
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GreateDataBse\GreateDataBase.cs" />
     <Compile Include="Picture\BigShow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -208,9 +207,7 @@
     <None Include="Resources\xiayiyehouyiye.png" />
   </ItemGroup>
   <ItemGroup>
-    <Analyzer Include="..\..\..\..\Downloads\sqlite-netFx46-binary-bundle-Win32-2015-1.0.109.0\System.Data.SQLite.dll" />
     <Analyzer Include="AxInterop.VeconclientProj.dll" />
-    <Analyzer Include="bin\x86\Debug\stdole.dll" />
     <Analyzer Include="Interop.VeconclientProj.dll" />
   </ItemGroup>
   <ItemGroup>
@@ -231,8 +228,6 @@
   <ItemGroup>
     <Content Include="Resources\1189944372_b.ico" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Container_OCX\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
