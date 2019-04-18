@@ -38,5 +38,14 @@
     <Setting Name="ContainerDLL_Intervals" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">10</Value>
     </Setting>
+    <Setting Name="LocalIp_bing" Type="System.String" Scope="User">
+      <Value Profile="(Default)">192.168.1.23</Value>
+    </Setting>
+    <Setting Name="LocalPort_bing_1" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">12088</Value>
+    </Setting>
+    <Setting Name="LocalPort_bing_2" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">12089</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

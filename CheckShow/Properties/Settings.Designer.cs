@@ -166,5 +166,41 @@ namespace CheckShow.Properties {
                 this["ContainerDLL_Intervals"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("192.168.1.23")]
+        public string LocalIp_bing {
+            get {
+                return ((string)(this["LocalIp_bing"]));
+            }
+            set {
+                this["LocalIp_bing"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("12088")]
+        public int LocalPort_bing_1 {
+            get {
+                return ((int)(this["LocalPort_bing_1"]));
+            }
+            set {
+                this["LocalPort_bing_1"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("12089")]
+        public int LocalPort_bing_2 {
+            get {
+                return ((int)(this["LocalPort_bing_2"]));
+            }
+            set {
+                this["LocalPort_bing_2"] = value;
+            }
+        }
     }
 }

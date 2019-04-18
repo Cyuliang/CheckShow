@@ -18,7 +18,10 @@
                 components.Dispose();
                 _TimerDateStatus.Dispose();
                 _DataBase.Dispose();
+                _ShowPictureTimer.Dispose();
                 _Uvss.Dispose();
+                _Container_socket_ConNum_DLL.Dispose();
+                _Container_socket_Lpn_DLL.Dispose();
             }
             base.Dispose(disposing);
         }

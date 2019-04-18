@@ -8,7 +8,7 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>CheckShow</RootNamespace>
     <AssemblyName>CheckShow</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
@@ -70,13 +70,14 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Resources\1189944372_b.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ContainelDll">
-      <HintPath>..\..\ContainelDll-master\ContainelDll\bin\x86\Release\netstandard2.0\ContainelDll.dll</HintPath>
+    <Reference Include="Container_Socket_DLL">
+      <HintPath>..\..\Container_Socket_DLL\Container_Socket_DLL\bin\Release\Container_Socket_DLL.dll</HintPath>
     </Reference>
     <Reference Include="log4net">
       <HintPath>.\log4net.dll</HintPath>
@@ -195,9 +196,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Release\CheckShow.exe.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <None Include="Release\CheckShow.exe.config" />
+    <None Include="Release\CheckShow.exe.lastcodeanalysissucceeded" />
     <None Include="Release\System.Data.SQLite.dll.config" />
     <None Include="Resources\shangyiyeqianyiye.png" />
   </ItemGroup>
@@ -211,8 +211,7 @@
     <None Include="Resources\xiayiyehouyiye.png" />
   </ItemGroup>
   <ItemGroup>
-    <Analyzer Include="AxInterop.VeconclientProj.dll" />
-    <Analyzer Include="Interop.VeconclientProj.dll" />
+    <Analyzer Include="..\..\ContainelDll-master\ContainelDll\bin\x86\Release\netstandard2.0\ContainelDll.dll" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
@@ -231,121 +230,21 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Release\bzip2.dll" />
-    <Content Include="Release\CheckShow.exe">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Release\CheckShow.exe" />
+    <Content Include="Release\CheckShow.exe.CodeAnalysisLog.xml" />
     <Content Include="Release\CheckShow.pdb" />
-    <Content Include="Release\ContainelDll.dll" />
-    <Content Include="Release\ContainelDll.pdb" />
+    <Content Include="Release\Container_Socket_DLL.dll" />
+    <Content Include="Release\Container_Socket_DLL.pdb" />
     <Content Include="Release\ice36.dll" />
     <Content Include="Release\iceutil36.dll" />
-    <Content Include="Release\Interop.VeconclientProj.dll" />
     <Content Include="Release\log4net.dll" />
-    <Content Include="Release\Microsoft.Win32.Primitives.dll" />
     <Content Include="Release\msvcp120.dll" />
     <Content Include="Release\msvcr120.dll" />
-    <Content Include="Release\netstandard.dll" />
-    <Content Include="Release\OCX.DLL" />
-    <Content Include="Release\System.AppContext.dll" />
-    <Content Include="Release\System.Collections.Concurrent.dll" />
-    <Content Include="Release\System.Collections.dll" />
-    <Content Include="Release\System.Collections.NonGeneric.dll" />
-    <Content Include="Release\System.Collections.Specialized.dll" />
-    <Content Include="Release\System.ComponentModel.dll" />
-    <Content Include="Release\System.ComponentModel.EventBasedAsync.dll" />
-    <Content Include="Release\System.ComponentModel.Primitives.dll" />
-    <Content Include="Release\System.ComponentModel.TypeConverter.dll" />
-    <Content Include="Release\System.Console.dll" />
-    <Content Include="Release\System.Data.Common.dll" />
     <Content Include="Release\System.Data.SQLite.dll" />
     <Content Include="Release\System.Data.SQLite.Linq.dll" />
     <Content Include="Release\System.Data.SQLite.Linq.pdb" />
     <Content Include="Release\System.Data.SQLite.pdb" />
-    <Content Include="Release\System.Diagnostics.Contracts.dll" />
-    <Content Include="Release\System.Diagnostics.Debug.dll" />
-    <Content Include="Release\System.Diagnostics.FileVersionInfo.dll" />
-    <Content Include="Release\System.Diagnostics.Process.dll" />
-    <Content Include="Release\System.Diagnostics.StackTrace.dll" />
-    <Content Include="Release\System.Diagnostics.TextWriterTraceListener.dll" />
-    <Content Include="Release\System.Diagnostics.Tools.dll" />
-    <Content Include="Release\System.Diagnostics.TraceSource.dll" />
-    <Content Include="Release\System.Diagnostics.Tracing.dll" />
-    <Content Include="Release\System.Drawing.Primitives.dll" />
-    <Content Include="Release\System.Dynamic.Runtime.dll" />
-    <Content Include="Release\System.Globalization.Calendars.dll" />
-    <Content Include="Release\System.Globalization.dll" />
-    <Content Include="Release\System.Globalization.Extensions.dll" />
-    <Content Include="Release\System.IO.Compression.dll" />
-    <Content Include="Release\System.IO.Compression.ZipFile.dll" />
-    <Content Include="Release\System.IO.dll" />
-    <Content Include="Release\System.IO.FileSystem.dll" />
-    <Content Include="Release\System.IO.FileSystem.DriveInfo.dll" />
-    <Content Include="Release\System.IO.FileSystem.Primitives.dll" />
-    <Content Include="Release\System.IO.FileSystem.Watcher.dll" />
-    <Content Include="Release\System.IO.IsolatedStorage.dll" />
-    <Content Include="Release\System.IO.MemoryMappedFiles.dll" />
-    <Content Include="Release\System.IO.Pipes.dll" />
-    <Content Include="Release\System.IO.UnmanagedMemoryStream.dll" />
-    <Content Include="Release\System.Linq.dll" />
-    <Content Include="Release\System.Linq.Expressions.dll" />
-    <Content Include="Release\System.Linq.Parallel.dll" />
-    <Content Include="Release\System.Linq.Queryable.dll" />
-    <Content Include="Release\System.Net.Http.dll" />
-    <Content Include="Release\System.Net.NameResolution.dll" />
-    <Content Include="Release\System.Net.NetworkInformation.dll" />
-    <Content Include="Release\System.Net.Ping.dll" />
-    <Content Include="Release\System.Net.Primitives.dll" />
-    <Content Include="Release\System.Net.Requests.dll" />
-    <Content Include="Release\System.Net.Security.dll" />
-    <Content Include="Release\System.Net.Sockets.dll" />
-    <Content Include="Release\System.Net.WebHeaderCollection.dll" />
-    <Content Include="Release\System.Net.WebSockets.Client.dll" />
-    <Content Include="Release\System.Net.WebSockets.dll" />
-    <Content Include="Release\System.ObjectModel.dll" />
-    <Content Include="Release\System.Reflection.dll" />
-    <Content Include="Release\System.Reflection.Extensions.dll" />
-    <Content Include="Release\System.Reflection.Primitives.dll" />
-    <Content Include="Release\System.Resources.Reader.dll" />
-    <Content Include="Release\System.Resources.ResourceManager.dll" />
-    <Content Include="Release\System.Resources.Writer.dll" />
-    <Content Include="Release\System.Runtime.CompilerServices.VisualC.dll" />
-    <Content Include="Release\System.Runtime.dll" />
-    <Content Include="Release\System.Runtime.Extensions.dll" />
-    <Content Include="Release\System.Runtime.Handles.dll" />
-    <Content Include="Release\System.Runtime.InteropServices.dll" />
-    <Content Include="Release\System.Runtime.InteropServices.RuntimeInformation.dll" />
-    <Content Include="Release\System.Runtime.Numerics.dll" />
-    <Content Include="Release\System.Runtime.Serialization.Formatters.dll" />
-    <Content Include="Release\System.Runtime.Serialization.Json.dll" />
-    <Content Include="Release\System.Runtime.Serialization.Primitives.dll" />
-    <Content Include="Release\System.Runtime.Serialization.Xml.dll" />
-    <Content Include="Release\System.Security.Claims.dll" />
-    <Content Include="Release\System.Security.Cryptography.Algorithms.dll" />
-    <Content Include="Release\System.Security.Cryptography.Csp.dll" />
-    <Content Include="Release\System.Security.Cryptography.Encoding.dll" />
-    <Content Include="Release\System.Security.Cryptography.Primitives.dll" />
-    <Content Include="Release\System.Security.Cryptography.X509Certificates.dll" />
-    <Content Include="Release\System.Security.Principal.dll" />
-    <Content Include="Release\System.Security.SecureString.dll" />
-    <Content Include="Release\System.Text.Encoding.dll" />
-    <Content Include="Release\System.Text.Encoding.Extensions.dll" />
-    <Content Include="Release\System.Text.RegularExpressions.dll" />
-    <Content Include="Release\System.Threading.dll" />
-    <Content Include="Release\System.Threading.Overlapped.dll" />
-    <Content Include="Release\System.Threading.Tasks.dll" />
-    <Content Include="Release\System.Threading.Tasks.Parallel.dll" />
-    <Content Include="Release\System.Threading.Thread.dll" />
-    <Content Include="Release\System.Threading.ThreadPool.dll" />
-    <Content Include="Release\System.Threading.Timer.dll" />
-    <Content Include="Release\System.ValueTuple.dll" />
-    <Content Include="Release\System.Xml.ReaderWriter.dll" />
-    <Content Include="Release\System.Xml.XDocument.dll" />
-    <Content Include="Release\System.Xml.XmlDocument.dll" />
-    <Content Include="Release\System.Xml.XmlSerializer.dll" />
-    <Content Include="Release\System.Xml.XPath.dll" />
-    <Content Include="Release\System.Xml.XPath.XDocument.dll" />
     <Content Include="Release\UVSSSDK.dll" />
-    <Content Include="Release\VeconclientProj.dll" />
     <Content Include="Resources\1189944372_b.ico" />
   </ItemGroup>
   <ItemGroup />

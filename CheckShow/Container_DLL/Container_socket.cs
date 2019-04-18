@@ -1,9 +1,9 @@
 ﻿using System;
-using ContainelDll;
+using Container_Socket_DLL;
 
 namespace CheckShow
 {
-    class Container_socket_DLL
+    class Container_socket_DLL:IDisposable
     {
         public Action<bool>   SocketStatusCallBack=null;
         public Action<DateTime, string> LpnCallBack=null;
@@ -13,11 +13,12 @@ namespace CheckShow
         /// <summary>
         /// 动态库对象
         /// </summary>
-        private ContainelDll.Container _Container = null;
+        private Container_Socket_DLL.Container _Container = null;
+        
 
-        public Container_socket_DLL(string Ip,int Port,int Intervals)
+        public Container_socket_DLL(string Ip,int Port,int Intervals,string Localip,int Localoport)
         {
-            _Container = new ContainelDll.Container(Ip, Port, Intervals);
+            _Container = new Container(Ip, Port, Intervals, Local_Ip_bing: Localip, Local_Port_bing: Localoport);
             _Container.NewLpnEvent += _Container_NewLpnEvent;
             _Container.UpdateLpnEvent += _Container_UpdateLpnEvent;
             _Container.ConNumEvent += _Container_ConNumEvent;
@@ -74,5 +75,41 @@ namespace CheckShow
         {
             LpnCallBack?.Invoke(e.TriggerTime,e.Lpn);
         }
+
+        #region IDisposable Support
+        private bool disposedValue = false; // 要检测冗余调用
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    // TODO: 释放托管状态(托管对象)。    
+                    _Container.Dispose();
+                }
+
+                // TODO: 释放未托管的资源(未托管的对象)并在以下内容中替代终结器。
+                // TODO: 将大型字段设置为 null。
+
+                disposedValue = true;
+            }
+        }
+
+        // TODO: 仅当以上 Dispose(bool disposing) 拥有用于释放未托管资源的代码时才替代终结器。
+        // ~Container_socket_DLL() {
+        //   // 请勿更改此代码。将清理代码放入以上 Dispose(bool disposing) 中。
+        //   Dispose(false);
+        // }
+
+        // 添加此代码以正确实现可处置模式。
+        public void Dispose()
+        {
+            // 请勿更改此代码。将清理代码放入以上 Dispose(bool disposing) 中。
+            Dispose(true);
+            // TODO: 如果在以上内容中替代了终结器，则取消注释以下行。
+            // GC.SuppressFinalize(this);
+        }
+        #endregion
     }
 }
