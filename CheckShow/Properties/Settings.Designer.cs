@@ -169,7 +169,7 @@ namespace CheckShow.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("192.168.1.23")]
+        [global::System.Configuration.DefaultSettingValueAttribute("127.0.0.1")]
         public string LocalIp_bing {
             get {
                 return ((string)(this["LocalIp_bing"]));

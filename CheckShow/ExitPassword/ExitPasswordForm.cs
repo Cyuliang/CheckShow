@@ -30,6 +30,7 @@ namespace CheckShow
             else
             {
                 MessageBox.Show("密码错误,请重新输入!");
+                this.PasswordTextBox.Focus();
                 //PasswordAction?.Invoke(false);
             }
         }

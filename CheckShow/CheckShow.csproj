@@ -10,7 +10,7 @@
     <AssemblyName>CheckShow</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
@@ -76,8 +76,9 @@
     <ApplicationIcon>Resources\1189944372_b.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Container_Socket_DLL">
-      <HintPath>..\..\Container_Socket_DLL\Container_Socket_DLL\bin\Release\Container_Socket_DLL.dll</HintPath>
+    <Reference Include="Container_Socket_DLL, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\x86\Release\Container_Socket_DLL.dll</HintPath>
     </Reference>
     <Reference Include="log4net">
       <HintPath>.\log4net.dll</HintPath>

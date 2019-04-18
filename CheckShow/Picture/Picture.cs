@@ -184,7 +184,7 @@ namespace CheckShow
                 {
                     PictureBox p = (PictureBox)control;
                     p.Image = null;
-                    p.Dispose();
+                    p.Dispose();                    
                 }
             }
         }

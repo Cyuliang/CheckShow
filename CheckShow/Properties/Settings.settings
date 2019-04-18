@@ -39,7 +39,7 @@
       <Value Profile="(Default)">10</Value>
     </Setting>
     <Setting Name="LocalIp_bing" Type="System.String" Scope="User">
-      <Value Profile="(Default)">192.168.1.23</Value>
+      <Value Profile="(Default)">127.0.0.1</Value>
     </Setting>
     <Setting Name="LocalPort_bing_1" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">12088</Value>
