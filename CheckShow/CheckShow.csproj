@@ -198,7 +198,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Release\CheckShow.exe.config" />
-    <None Include="Release\CheckShow.exe.lastcodeanalysissucceeded" />
     <None Include="Release\System.Data.SQLite.dll.config" />
     <None Include="Resources\shangyiyeqianyiye.png" />
   </ItemGroup>
@@ -232,7 +231,6 @@
   <ItemGroup>
     <Content Include="Release\bzip2.dll" />
     <Content Include="Release\CheckShow.exe" />
-    <Content Include="Release\CheckShow.exe.CodeAnalysisLog.xml" />
     <Content Include="Release\CheckShow.pdb" />
     <Content Include="Release\Container_Socket_DLL.dll" />
     <Content Include="Release\Container_Socket_DLL.pdb" />
