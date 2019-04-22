@@ -13,12 +13,12 @@ namespace CheckShow
         /// <summary>
         /// 动态库对象
         /// </summary>
-        private Container_Socket_DLL.Container _Container = null;        
+        private Container_Socket_DLL.Container_Socket _Container = null;        
         
 
         public Container_socket_DLL(string Ip,int Port,int Intervals,string Localip,int Localoport)
         {
-            _Container = new Container(Ip, Port, Intervals, Local_Ip_bing: Localip, Local_Port_bing: Localoport);
+            _Container = new Container_Socket_DLL.Container_Socket(Ip, Port, Intervals, Local_Ip_bing: Localip, Local_Port_bing: Localoport);
             _Container.NewLpnEvent += _Container_NewLpnEvent;
             _Container.UpdateLpnEvent += _Container_UpdateLpnEvent;
             _Container.ConNumEvent += _Container_ConNumEvent;

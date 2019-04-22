@@ -76,9 +76,8 @@
     <ApplicationIcon>Resources\1189944372_b.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Container_Socket_DLL, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\x86\Release\Container_Socket_DLL.dll</HintPath>
+    <Reference Include="Container_Socket_DLL">
+      <HintPath>..\..\Container_Socket_DLL\Container_Socket_DLL\bin\x86\Release\Container_Socket_DLL.dll</HintPath>
     </Reference>
     <Reference Include="log4net">
       <HintPath>.\log4net.dll</HintPath>
@@ -232,8 +231,6 @@
     <Content Include="Release\bzip2.dll" />
     <Content Include="Release\CheckShow.exe" />
     <Content Include="Release\CheckShow.pdb" />
-    <Content Include="Release\Container_Socket_DLL.dll" />
-    <Content Include="Release\Container_Socket_DLL.pdb" />
     <Content Include="Release\ice36.dll" />
     <Content Include="Release\iceutil36.dll" />
     <Content Include="Release\log4net.dll" />
