@@ -210,9 +210,6 @@
     <None Include="Resources\xiayiyehouyiye.png" />
   </ItemGroup>
   <ItemGroup>
-    <Analyzer Include="..\..\ContainelDll-master\ContainelDll\bin\x86\Release\netstandard2.0\ContainelDll.dll" />
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4.6.1 %28x86 和 x64%29</ProductName>

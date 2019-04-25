@@ -26,7 +26,10 @@ namespace CheckShow
         private Action<string[]> ShowPicture;//弹窗显示图片
 
         private System.Threading.Timer _TimerDateStatus=null;
-        private System.Threading.Timer _ShowPictureTimer = null;//延时显示图片
+        //延时显示图片
+        System.Threading.Timer _TimerShowPicture = null;
+
+
         private DateTime LpnDt = DateTime.Now;
 
         private string Container_ImagePath = Properties.Settings.Default.Container_ImagePath;
@@ -185,6 +188,7 @@ namespace CheckShow
         private void _Container_socket_Lpn_DLLLpn(DateTime TriggerTime, string Lpn)
         {
             _TimerDateStatus.Change(TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(0));
+
             if(string.IsNullOrEmpty(Lpn))
             {
                 Lpn = "nul";
@@ -196,14 +200,18 @@ namespace CheckShow
             {
                 Lognet.Log.Info("插入车牌数据成功");
 
-                _ShowPictureTimer = new System.Threading.Timer(ShowPictureCallBack, ImagePath, TimeSpan.FromSeconds(2), TimeSpan.FromSeconds(0));
-
+                //延时显示图片
+                _TimerShowPicture= new System.Threading.Timer(ShowPictureCallBack, ImagePath, TimeSpan.FromSeconds(2), TimeSpan.FromSeconds(0));
+                RunMessage("开始显示图片");
             }
+
             LpnDt = TriggerTime;//车底图片保位置
         }
 
         private void ShowPictureCallBack(object state)
         {
+            _TimerShowPicture.Dispose();
+
             string[] ImagePath = (string[])state;
             //触发实时显示箱体图片
             string[] rows = { null, null, null, null, ImagePath[1], ImagePath[3], ImagePath[2], ImagePath[4], ImagePath[5], ImagePath[6] };

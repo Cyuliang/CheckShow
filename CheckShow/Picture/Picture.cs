@@ -154,6 +154,7 @@ namespace CheckShow
             Image img= Image.FromStream(stream);
             stream.Close();
             //stream.Dispose();
+            GC.Collect();
             return (img);
         }
 
@@ -166,10 +167,9 @@ namespace CheckShow
                     PictureBox p = (PictureBox)control;
                     p.Image = null;
                     p.Dispose();
+                    GC.Collect();
                 }
             }
-
-            GC.Collect();
             //GC.WaitForPendingFinalizers();
         }
 
@@ -184,7 +184,8 @@ namespace CheckShow
                 {
                     PictureBox p = (PictureBox)control;
                     p.Image = null;
-                    p.Dispose();                    
+                    p.Dispose();
+                    GC.Collect();
                 }
             }
         }
